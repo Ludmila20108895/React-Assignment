@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import MovieListHeader from "../components/headerMovieList/intex.tsx";
+import MovieListHeader from "../components/headerMovieList";
 
 const meta = {
     title: 'Home Page/Header',
