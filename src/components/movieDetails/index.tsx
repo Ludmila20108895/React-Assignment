@@ -22,7 +22,7 @@ const styles = {
   },
 };
 
-const MovieDetails: React.FC<MovieDetailsProps> = (movie) => {
+export const MovieDetails: React.FC<MovieDetailsProps> = (movie) => {
   return (
     <>
       <Typography variant="h5" component="h3">
@@ -43,6 +43,7 @@ const MovieDetails: React.FC<MovieDetailsProps> = (movie) => {
           </li>
         ))}
       </Paper>
+
       <Paper component="ul" sx={styles.chipSet}>
         <Chip icon={<AccessTimeIcon />} label={`${movie.runtime} min.`} />
         <Chip
@@ -51,9 +52,23 @@ const MovieDetails: React.FC<MovieDetailsProps> = (movie) => {
         />
         <Chip
           icon={<StarRate />}
-          label={`${movie.vote_average} (${movie.vote_count}`}
+          label={`${movie.vote_average} (${movie.vote_count})`}
         />
         <Chip label={`Released: ${movie.release_date}`} />
+      </Paper>
+      <Paper component="ul" sx={styles.chipSet}>
+        <li>
+          <Chip
+            label="Production Countries"
+            sx={styles.chipLabel}
+            color="primary"
+          />
+        </li>
+        {movie.production_countries.map((c) => (
+          <li key={c.name}>
+            <Chip label={c.name} />
+          </li>
+        ))}
       </Paper>
     </>
   );
