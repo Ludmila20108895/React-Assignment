@@ -26,6 +26,8 @@ const styles = {
 };
 
 interface FilterMoviesCardProps {
+  onUserInput: (f: FilterOption, s: string) => void;
+
   titleFilter: string;
   genreFilter: string;
 }
@@ -33,6 +35,7 @@ interface FilterMoviesCardProps {
 const FilterMoviesCard: React.FC<FilterMoviesCardProps> = ({
   titleFilter,
   genreFilter,
+  onUserInput,
 }) => {
   const [genres, setGenres] = useState([{ id: "0", name: "All" }]);
 
@@ -61,6 +64,7 @@ const FilterMoviesCard: React.FC<FilterMoviesCardProps> = ({
     _value: string
   ) => {
     e.preventDefault();
+    onUserInput(_type, _value);
     // Completed later
   };
 
