@@ -39,6 +39,14 @@ const MovieListPage: React.FC = () => {
     if (type === "title") setTitleFilter(value);
     else setGenreFilter(value);
   };
+  // New function
+  const addToFavourites = (movieId: number) => {
+    const updatedMovies = movies.map((m: BaseMovieProps) =>
+      m.id === movieId ? { ...m, favourite: true } : m
+    );
+    setMovies(updatedMovies);
+  };
+  // Fetch movies from API
 
   useEffect(() => {
     fetch(
@@ -64,7 +72,10 @@ const MovieListPage: React.FC = () => {
           <Header title={"Home Page"} />
         </Grid>
         <Grid item container spacing={5}>
-          <MovieList movies={displayedMovies}></MovieList>
+          <MovieList
+            movies={displayedMovies}
+            selectFavourite={addToFavourites}
+          />
         </Grid>
       </Grid>
       <Fab
