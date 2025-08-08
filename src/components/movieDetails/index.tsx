@@ -9,7 +9,7 @@ import { MovieDetailsProps } from "../../types/interfaces";
 import NavigationIcon from "@mui/icons-material/Navigation";
 import Fab from "@mui/material/Fab";
 import Drawer from "@mui/material/Drawer";
-import MovieReviews from "../movieReviews";
+import MovieReview from "../movieReviews";
 
 const styles = {
   chipSet: {
@@ -80,7 +80,7 @@ const MovieDetails: React.FC<MovieDetailsProps> = (movie) => {
         open={drawerOpen}
         onClose={() => setDrawerOpen(false)}
       >
-        <MovieReviews {...movie} />
+        <MovieReview {...movie} />
       </Drawer>
     </>
   );
