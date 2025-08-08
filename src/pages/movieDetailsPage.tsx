@@ -1,19 +1,12 @@
-import React, { useState, useEffect } from "react"; // replace existing react import
+import React from "react"; // replace existing react import
 import { useParams } from "react-router-dom";
 import MovieDetails from "../components/movieDetails";
-import { MovieDetailsProps } from "../types/interfaces";
-import { getMovie } from "../api/tmdb-api";
 import PageTemplate from "../components/templateMoviePage";
+import useMovie from "../hooks/useMovie";
 
 const MovieDetailsPage: React.FC = () => {
   const { id } = useParams();
-  const [movie, setMovie] = useState<MovieDetailsProps>();
-
-  useEffect(() => {
-    getMovie(id ?? "").then((movie) => {
-      setMovie(movie);
-    });
-  }, [id]);
+  const [movie] = useMovie(id ?? "");
 
   return (
     <>
@@ -31,3 +24,4 @@ const MovieDetailsPage: React.FC = () => {
 };
 
 export default MovieDetailsPage;
+// This code defines a MovieDetailsPage component that fetches and displays movie details using the useMovie hook and the MovieDetails component. It handles the case where the movie data is not yet available by displaying a loading message. The component uses React Router's useParams to get the movie ID from the URL.
