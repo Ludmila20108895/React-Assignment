@@ -7,6 +7,7 @@ import MoviePage from "./pages/movieDetailsPage";
 import FavouriteMoviesPage from "./pages/favouriteMoviesPage"; // NEW
 import MovieReviewPage from "./pages/movieReviewPage";
 import SiteHeader from "./components/siteHeader";
+import UpcomingMoviesPage from "./pages/upcomingMoviesPage";
 
 // eslint-disable-next-line react-refresh/only-export-components
 const App = () => {
@@ -19,6 +20,7 @@ const App = () => {
         <Route path="/" element={<HomePage />} />
         <Route path="*" element={<Navigate to="/" />} />
         <Route path="/reviews/:id" element={<MovieReviewPage />} />
+        <Route path="/movies/upcoming" element={<UpcomingMoviesPage />} />
       </Routes>
     </BrowserRouter>
   );
