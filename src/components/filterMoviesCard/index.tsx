@@ -1,5 +1,6 @@
-import React, { useState, useEffect, ChangeEvent } from "react";
-import { FilterOption } from "../../types/interfaces";
+import React, { ChangeEvent } from "react"; // useState/useEffect redundant
+import { FilterOption, GenreData } from "../../types/interfaces"; //include GenreData interface
+
 import { SelectChangeEvent } from "@mui/material";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -12,6 +13,8 @@ import SortIcon from "@mui/icons-material/Sort";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { getGenres } from "../../api/tmdb-api";
+import { useQuery } from "react-query";
+import Spinner from "../spinner";
 
 const styles = {
   root: {
@@ -38,26 +41,29 @@ const FilterMoviesCard: React.FC<FilterMoviesCardProps> = ({
   genreFilter,
   onUserInput,
 }) => {
-  const [genres, setGenres] = useState([{ id: "0", name: "All" }]);
+  const { data, error, isLoading, isError } = useQuery<GenreData, Error>(
+    "genres",
+    getGenres
+  );
 
-  useEffect(() => {
-    getGenres().then((allGenres) => {
-      setGenres([genres[0], ...allGenres]);
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  if (isLoading) {
+    return <Spinner />;
+  }
+  if (isError) {
+    return <h1>{(error as Error).message}</h1>;
+  }
+  const genres = data?.genres || [];
+  if (genres[0].name !== "All") {
+    genres.unshift({ id: "0", name: "All" });
+  }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleChange = (
     e: SelectChangeEvent,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    _type: FilterOption,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    _value: string
+    type: FilterOption,
+    value: string
   ) => {
     e.preventDefault();
-    onUserInput(_type, _value);
-    // Completed later
+    onUserInput(type, value);
   };
 
   const handleTextChange = (e: ChangeEvent<HTMLInputElement>) => {
