@@ -71,3 +71,14 @@ export interface BaseMovieListProps {
   movies: BaseMovieProps[];
   action: (m: BaseMovieProps) => React.ReactNode;
 }
+// This interface defines the structure of a movie object used across the application
+// It includes properties like title, budget, homepage, id, and various other movie details
+export interface Review {
+  author: string;
+  content: string;
+  agree: boolean;
+  rating: number;
+  movieId: number;
+}
+// This interface defines the structure of a movie review
+//

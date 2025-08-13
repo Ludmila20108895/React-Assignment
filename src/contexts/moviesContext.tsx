@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState, useCallback } from "react";
 import { BaseMovieProps } from "../types/interfaces";
 
@@ -5,11 +6,15 @@ interface MovieContextInterface {
   favourites: number[];
   addToFavourites: (movie: BaseMovieProps) => void;
   removeFromFavourites: (movie: BaseMovieProps) => void;
+  addReview: (movie: BaseMovieProps, review: Review) => void; // NEW
 }
 const initialContextState: MovieContextInterface = {
   favourites: [],
   addToFavourites: () => {},
   removeFromFavourites: () => {},
+  addReview: (movie, review) => {
+    movie.id, review;
+  }, // NEW
 };
 
 // eslint-disable-next-line react-refresh/only-export-components
@@ -19,6 +24,8 @@ export const MoviesContext =
 const MoviesContextProvider: React.FC<React.PropsWithChildren> = ({
   children,
 }) => {
+  const [myReviews, setMyReviews] = useState<Review[]>([]); // NEW
+
   const [favourites, setFavourites] = useState<number[]>([]);
 
   const addToFavourites = useCallback((movie: BaseMovieProps) => {
@@ -35,6 +42,10 @@ const MoviesContextProvider: React.FC<React.PropsWithChildren> = ({
       prevFavourites.filter((mId) => mId !== movie.id)
     );
   }, []);
+  const addReview = (movie: BaseMovieProps, review: Review) => {
+    // NEW
+    setMyReviews({ ...myReviews, [movie.id]: review });
+  };
 
   return (
     <MoviesContext.Provider
@@ -42,6 +53,7 @@ const MoviesContextProvider: React.FC<React.PropsWithChildren> = ({
         favourites,
         addToFavourites,
         removeFromFavourites,
+        addReview, // NEW
       }}
     >
       {children}
