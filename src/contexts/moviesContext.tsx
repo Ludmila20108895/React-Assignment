@@ -1,12 +1,15 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState, useCallback } from "react";
 import { BaseMovieProps } from "../types/interfaces";
+import { Review } from "../types/interfaces";
 
 interface MovieContextInterface {
   favourites: number[];
   addToFavourites: (movie: BaseMovieProps) => void;
   removeFromFavourites: (movie: BaseMovieProps) => void;
   addReview: (movie: BaseMovieProps, review: Review) => void; // NEW
+  addToMustWatch: (movie: BaseMovieProps) => void; // NEW
+  mustWatch: number[]; // NEW
 }
 const initialContextState: MovieContextInterface = {
   favourites: [],
@@ -15,6 +18,8 @@ const initialContextState: MovieContextInterface = {
   addReview: (movie, review) => {
     movie.id, review;
   }, // NEW
+  addToMustWatch: () => {}, // NEW
+  mustWatch: [], // NEW
 };
 
 // eslint-disable-next-line react-refresh/only-export-components
@@ -27,6 +32,7 @@ const MoviesContextProvider: React.FC<React.PropsWithChildren> = ({
   const [myReviews, setMyReviews] = useState<Review[]>([]); // NEW
 
   const [favourites, setFavourites] = useState<number[]>([]);
+  const [mustWatch, setMustWatch] = useState<number[]>([]); // NEW
 
   const addToFavourites = useCallback((movie: BaseMovieProps) => {
     setFavourites((prevFavourites) => {
@@ -42,6 +48,17 @@ const MoviesContextProvider: React.FC<React.PropsWithChildren> = ({
       prevFavourites.filter((mId) => mId !== movie.id)
     );
   }, []);
+
+  const addToMustWatch = useCallback((movie: BaseMovieProps) => {
+    setMustWatch((prevMustWatch) => {
+      if (!prevMustWatch.includes(movie.id)) {
+        const updatedMustWatch = [...prevMustWatch, movie.id];
+        return updatedMustWatch;
+      }
+      return prevMustWatch;
+    });
+  }, []);
+
   const addReview = (movie: BaseMovieProps, review: Review) => {
     // NEW
     setMyReviews({ ...myReviews, [movie.id]: review });
@@ -54,6 +71,8 @@ const MoviesContextProvider: React.FC<React.PropsWithChildren> = ({
         addToFavourites,
         removeFromFavourites,
         addReview, // NEW
+        addToMustWatch, // NEW
+        mustWatch, // NEW
       }}
     >
       {children}

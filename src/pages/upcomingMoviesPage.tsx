@@ -11,6 +11,8 @@ import MovieFilterUI, {
   genreFilter,
 } from "../components/movieFilterUI";
 import Spinner from "../components/spinner";
+import { useContext } from "react";
+import { MoviesContext } from "../contexts/moviesContext";
 
 // Filtering configuration
 const titleFiltering = {
@@ -55,10 +57,12 @@ const UpcomingMoviesPage: React.FC = () => {
   };
 
   const AddMustWatchIcon = (movie: BaseMovieProps) => {
+    const { addToMustWatch } = useContext(MoviesContext);
+
     return (
       <IconButton
         aria-label="add to must watch"
-        onClick={() => console.log(`Add ${movie.title} to must watch list`)}
+        onClick={() => addToMustWatch(movie)}
       >
         <PlaylistAddIcon color="primary" fontSize="large" />
       </IconButton>

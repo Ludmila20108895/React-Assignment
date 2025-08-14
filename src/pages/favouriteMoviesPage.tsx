@@ -9,8 +9,6 @@ import MovieFilterUI, {
   titleFilter,
   genreFilter,
 } from "../components/movieFilterUI";
-import RemoveFromFavourites from "../components/cardIcons/removeFromFavourites";
-import WriteReview from "../components/cardIcons/writeReview";
 
 const titleFiltering = {
   name: "title",
@@ -59,21 +57,15 @@ const FavouriteMoviesPage: React.FC = () => {
     setFilterValues(updatedFilterSet);
   };
 
+  const toDo = () => true;
+
   return (
     <>
       <PageTemplate
         title="Favourite Movies"
         movies={displayedMovies}
-        action={(movie) => {
-          return (
-            <>
-              <RemoveFromFavourites {...movie} />
-              <WriteReview {...movie} />
-            </>
-          );
-        }}
+        action={toDo}
       />
-
       <MovieFilterUI
         onFilterValuesChange={changeFilterValues}
         titleFilter={filterValues[0].value}
@@ -84,4 +76,3 @@ const FavouriteMoviesPage: React.FC = () => {
 };
 
 export default FavouriteMoviesPage;
-// This code defines a FavouriteMoviesPage component that fetches and displays a list of favourite movies using the useQueries hook from react-query. It allows filtering of movies by title and genre, and displays a loading spinner while the data is being fetched.
