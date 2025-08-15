@@ -11,74 +11,102 @@ import Typography from "@mui/material/Typography";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import CalendarIcon from "@mui/icons-material/CalendarTodayTwoTone";
 import StarRateIcon from "@mui/icons-material/StarRate";
-import Grid from "@mui/material/Grid";
 import img from "../../images/film-poster-placeholder.png";
 import { BaseMovieProps } from "../../types/interfaces";
 import { MoviesContext } from "../../contexts/moviesContext";
 
 const styles = {
-  card: { maxWidth: 345 },
-  media: { height: 500 },
+  card: {
+    width: 250,
+    borderRadius: 5,
+    boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+    transition: "transform 0.2s",
+    "&:hover": {
+      transform: "translateY(-5px)",
+    },
+  },
+  media: {
+    height: 200,
+    objectFit: "cover",
+  },
   avatar: {
     backgroundColor: "rgb(255, 0, 0)",
   },
+  content: {
+    paddingBottom: "8px",
+  },
+  infoRow: {
+    display: "flex",
+    justifyContent: "space-between",
+    marginTop: "8px",
+    fontSize: "0.85rem",
+    color: "#666",
+  },
+  title: {
+    fontWeight: "bold",
+    fontSize: "1rem",
+
+    color: "#333",
+    height: "48px",
+    overflow: "hidden",
+  },
+  actions: {
+    justifyContent: "space-between",
+    padding: "0 16px 16px",
+  },
 };
+
 interface MovieCardProps {
   movie: BaseMovieProps;
   action: (m: BaseMovieProps) => React.ReactNode;
 }
 
 const MovieCard: React.FC<MovieCardProps> = ({ movie, action }) => {
-  const { favourites } = useContext(MoviesContext); //NEW
-
-  const isFavourite = favourites.find((id) => id === movie.id) ? true : false; //NEW
+  const { favourites } = useContext(MoviesContext);
+  const isFavourite = favourites.includes(movie.id);
 
   return (
     <Card sx={styles.card}>
       <CardHeader
         avatar={
-          isFavourite ? ( //CHANGED
+          isFavourite && (
             <Avatar sx={styles.avatar}>
               <FavoriteIcon />
             </Avatar>
-          ) : null
+          )
         }
         title={
-          <Typography variant="h5" component="p">
-            {movie.title}{" "}
+          <Typography sx={styles.title} variant="subtitle1">
+            {movie.title}
           </Typography>
         }
       />
-
       <CardMedia
         sx={styles.media}
+        component="img"
         image={
           movie.poster_path
             ? `https://image.tmdb.org/t/p/w500/${movie.poster_path}`
             : img
         }
+        alt={movie.title}
       />
-      <CardContent>
-        <Grid container>
-          <Grid item xs={6}>
-            <Typography variant="h6" component="p">
-              <CalendarIcon fontSize="small" />
-              {movie.release_date}
-            </Typography>
-          </Grid>
-          <Grid item xs={6}>
-            <Typography variant="h6" component="p">
-              <StarRateIcon fontSize="small" />
-              {"  "} {movie.vote_average}{" "}
-            </Typography>
-          </Grid>
-        </Grid>
+      <CardContent sx={styles.content}>
+        <div style={styles.infoRow}>
+          <span>
+            <CalendarIcon fontSize="small" /> {movie.release_date}
+          </span>
+          <span>
+            <StarRateIcon fontSize="small" />{" "}
+            {movie.vote_average ? movie.vote_average.toFixed(1) : "N/A"}
+          </span>
+        </div>
       </CardContent>
-      <CardActions disableSpacing>
+      <CardActions sx={styles.actions}>
         {action(movie)}
         <Link to={`/movies/${movie.id}`}>
-          <Button variant="outlined" size="medium" color="primary">
-            More Info ...
+          <Button size="small" variant="contained">
+            More Info
           </Button>
         </Link>
       </CardActions>

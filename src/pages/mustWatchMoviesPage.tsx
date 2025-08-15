@@ -9,6 +9,9 @@ import MovieFilterUI, {
   titleFilter,
   genreFilter,
 } from "../components/movieFilterUI"; // Filtering configuration
+import RemoveFromMustWatchIcon from "../components/cardIcons/removeFromMustWatch"; // Importing the icon component for removing movies from the must-watch list
+import { BaseMovieProps } from "../types/interfaces"; // Importing types for TypeScript support
+import WriteReviewIcon from "../components/cardIcons/writeReview";
 
 const titleFiltering = {
   // Configuration for title filtering
@@ -33,7 +36,7 @@ const MustWatchMoviesPage: React.FC = () => {
     genreFiltering,
   ]);
 
-  const movieQueries = useQueries(
+  const queries = useQueries(
     // Fetching movie data for each must-watch movie ID
     movieIds.map((movieId) => ({
       // Mapping over movie IDs to create queries
@@ -42,11 +45,11 @@ const MustWatchMoviesPage: React.FC = () => {
     }))
   );
 
-  const isLoading = movieQueries.find((m) => m.isLoading === true); // Checking if any query is loading
+  const isLoading = queries.find((m) => m.isLoading === true); // Checking if any query is loading
   if (isLoading) return <Spinner />; // Display spinner while loading
 
-  const movies = movieQueries.map((q) => q.data); // Extracting movie data from queries
-  const displayedMovies = filterFunction(movies); // Applying filters to the movie list
+  const movies = queries.map((q) => q.data); // Extracting movie data from queries
+  const displayedMovies = movies ? filterFunction(movies) : [];
 
   const changeFilterValues = (type: string, value: string) => {
     // Function to change filter values
@@ -58,14 +61,17 @@ const MustWatchMoviesPage: React.FC = () => {
     setFilterValues(updatedFilterSet); // Setting the new filter values
   };
 
-  const noAction = () => true;
-
   return (
     <>
       <PageTemplate
         title="Must Watch Movies"
         movies={displayedMovies}
-        action={noAction}
+        action={(movie: BaseMovieProps) => (
+          <>
+            <RemoveFromMustWatchIcon {...movie} />
+            <WriteReviewIcon {...movie} />
+          </>
+        )}
       />
       <MovieFilterUI
         onFilterValuesChange={changeFilterValues}

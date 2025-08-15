@@ -1,72 +1,50 @@
-import React from "react";
-import PageTemplate from "../components/templateMovieListPage";
-import { BaseMovieProps } from "../types/interfaces";
-import { getUpcomingMovies } from "../api/tmdb-api";
-import { useQuery } from "react-query";
-import IconButton from "@mui/material/IconButton";
-import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd";
-import useFiltering from "../hooks/useFiltering";
-import MovieFilterUI, {
+import React from "react"; // Importing React for component creation
+import PageTemplate from "../components/templateMovieListPage"; // Importing the template for the movie list page
+import { BaseMovieProps } from "../types/interfaces"; // Importing the interface for movie properties
+import { getUpcomingMovies } from "../api/tmdb-api"; // Importing the API function to fetch upcoming movies
+import { useQuery } from "react-query"; // Importing useQuery from react-query for data fetching
+import useFiltering from "../hooks/useFiltering"; // Importing custom hook for filtering movies
+import MovieFilterUI, { // Importing the UI component for filtering movies
   titleFilter,
   genreFilter,
 } from "../components/movieFilterUI";
-import Spinner from "../components/spinner";
-import { useContext } from "react";
-import { MoviesContext } from "../contexts/moviesContext";
+import Spinner from "../components/spinner"; // Importing Spinner component for loading state
+import AddToMustWatchIcon from "../components/cardIcons/addToMustWatch"; // Importing the icon component for adding movies to "Must Watch" list
 
-// Filtering configuration
-const titleFiltering = {
-  name: "title",
-  value: "",
-  condition: titleFilter,
-};
-const genreFiltering = {
-  name: "genre",
-  value: "0",
-  condition: genreFilter,
-};
+const titleFiltering = { name: "title", value: "", condition: titleFilter }; // Defining the title filtering criteria
+const genreFiltering = { name: "genre", value: "0", condition: genreFilter }; // Defining the genre filtering criteria
 
 const UpcomingMoviesPage: React.FC = () => {
+  // Defining the UpcomingMoviesPage component
   const { data, isLoading, error } = useQuery({
-    queryKey: ["upcomingMovies"],
-    queryFn: getUpcomingMovies,
+    queryKey: ["upcomingMovies"], // Query key for caching
+    queryFn: getUpcomingMovies, // Fetching upcoming movies using the API function
   });
 
   const { filterValues, setFilterValues, filterFunction } = useFiltering([
+    // Using the custom hook for filtering
     titleFiltering,
     genreFiltering,
   ]);
 
-  if (isLoading) return <Spinner />;
-  if (error) return <div>Error loading upcoming movies.</div>;
+  if (isLoading) return <Spinner />; // Displaying spinner while data is loading
+  if (error) return <div>Error loading upcoming movies.</div>; // Displaying error message if data fetching fails
 
   const movies = data.results.map((m: BaseMovieProps) => ({
+    // Mapping the fetched movies to the required format
     ...m,
     favourite: false,
   }));
-
-  const displayedMovies = filterFunction(movies);
+  const displayedMovies = filterFunction(movies); // Filtering the movies based on the filter criteria
 
   const changeFilterValues = (type: string, value: string) => {
-    const changedFilter = { name: type, value: value };
-    const updatedFilterSet =
+    // Function to change filter values
+    const changedFilter = { name: type, value }; // Creating a new filter object with updated value
+    const updated =
       type === "title"
         ? [changedFilter, filterValues[1]]
-        : [filterValues[0], changedFilter];
-    setFilterValues(updatedFilterSet);
-  };
-
-  const AddMustWatchIcon = (movie: BaseMovieProps) => {
-    const { addToMustWatch } = useContext(MoviesContext);
-
-    return (
-      <IconButton
-        aria-label="add to must watch"
-        onClick={() => addToMustWatch(movie)}
-      >
-        <PlaylistAddIcon color="primary" fontSize="large" />
-      </IconButton>
-    );
+        : [filterValues[0], changedFilter]; // Updating the filter values based on the type
+    setFilterValues(updated); // Setting the updated filter values
   };
 
   return (
@@ -79,7 +57,7 @@ const UpcomingMoviesPage: React.FC = () => {
       <PageTemplate
         title="Upcoming Movies"
         movies={displayedMovies}
-        action={AddMustWatchIcon}
+        action={(movie: BaseMovieProps) => <AddToMustWatchIcon movie={movie} />} // Adding action icon to each movie
       />
     </>
   );
