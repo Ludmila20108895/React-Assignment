@@ -82,4 +82,26 @@ export interface Review {
   movieId: number;
 }
 // This interface defines the structure of a movie review
-//
+
+// This interface defines the structure of an actor object (Popular People API from TMDB)
+export interface Actor {
+  // It includes properties like id, name, profile_path, and known_for
+  id: number;
+  name: string;
+  profile_path: string | null;
+  known_for?: Array<{
+    id: number;
+    media_type?: "movie" | "tv";
+    title?: string; // for movies
+    name?: string; // for TV
+    poster_path?: string | null;
+  }>;
+}
+
+export interface DiscoverActors {
+  // This interface defines the structure of a response containing a list of actors
+  page: number;
+  results: Actor[];
+  total_pages: number;
+  total_results: number;
+}

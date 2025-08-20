@@ -1,16 +1,16 @@
 import React, { useState, MouseEvent } from "react";
-import AppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
-import IconButton from "@mui/material/IconButton";
-import Button from "@mui/material/Button";
-import { styled } from "@mui/material/styles";
-import MenuIcon from "@mui/icons-material/Menu";
-import MenuItem from "@mui/material/MenuItem";
-import Menu from "@mui/material/Menu";
-import { useNavigate } from "react-router-dom";
-import { useTheme } from "@mui/material/styles";
-import useMediaQuery from "@mui/material/useMediaQuery";
+import AppBar from "@mui/material/AppBar"; // Import AppBar for the header
+import Toolbar from "@mui/material/Toolbar"; // Import Toolbar for layout within the AppBar
+import Typography from "@mui/material/Typography"; // Import Typography for text styling
+import IconButton from "@mui/material/IconButton"; // Import IconButton for clickable icons
+import Button from "@mui/material/Button"; // Import Button for navigation links
+import { styled } from "@mui/material/styles"; // Import styled for custom styling
+import MenuIcon from "@mui/icons-material/Menu"; // Import MenuIcon for the mobile menu button
+import MenuItem from "@mui/material/MenuItem"; // Import MenuItem for individual menu options
+import Menu from "@mui/material/Menu"; // Import Menu for the dropdown menu functionality
+import { useNavigate } from "react-router-dom"; // Import useNavigate for navigation
+import { useTheme } from "@mui/material/styles"; // Import useTheme for responsive design
+import useMediaQuery from "@mui/material/useMediaQuery"; // Import useMediaQuery for responsive breakpoints
 
 const styles = {
   title: {
@@ -20,6 +20,8 @@ const styles = {
 
 const Offset = styled("div")(({ theme }) => theme.mixins.toolbar);
 
+// This component renders the site header with navigation options
+// It includes a title, a menu icon for mobile view, and buttons for navigation
 const SiteHeader: React.FC = () => {
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
@@ -27,14 +29,20 @@ const SiteHeader: React.FC = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("lg"));
 
+  // Define the menu options with labels and paths
+  // Each option corresponds to a page in the application
   const menuOptions = [
-    { label: "HOME", path: "/" },
-    { label: "FAVORITES", path: "/movies/favourites" },
-    { label: "UPCOMING", path: "/movies/upcoming" }, // NEW
-    { label: "MUST WATCH", path: "/movies/mustwatch" },
-    { label: "OPTION 4", path: "/" },
+    { label: "HOME", path: "/" }, // Home page
+    { label: "FAVORITES", path: "/movies/favourites" }, // Favorites page
+    { label: "UPCOMING", path: "/movies/upcoming" }, // Upcoming movies page
+    { label: "MUST WATCH", path: "/movies/mustwatch" }, // Must Watch movies page
+    { label: "ACTORS", path: "/actors" }, // Actors list page
   ];
 
+  // Function to handle menu item selection
+  // It navigates to the selected page URL
+  // It uses the useNavigate hook from react-router-dom for navigation
+  // It sets the anchor element to null to close the menu after selection
   const handleMenuSelect = (pageURL: string) => {
     navigate(pageURL);
   };
