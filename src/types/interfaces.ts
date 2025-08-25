@@ -105,3 +105,13 @@ export interface DiscoverActors {
   total_pages: number;
   total_results: number;
 }
+export interface ActorDetails extends Actor {
+  biography: string;
+  birthday: string | null;
+  deathday: string | null;
+  place_of_birth: string | null;
+  homepage: string | null;
+  also_known_as: string[];
+  imdb_id: string | null;
+  gender: number | null;
+}
