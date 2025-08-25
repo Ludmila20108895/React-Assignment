@@ -126,9 +126,7 @@ export const getActor = (id: string) => {
   )
     .then((response) => {
       if (!response.ok) {
-        throw new Error(
-          `Failed to get actor data. Response status: ${response.status}`
-        );
+        throw new Error(`Unable to fetch actor. Status: ${response.status}`);
       }
       return response.json();
     })

@@ -34,20 +34,24 @@ const App = () => {
         <SiteHeader />
         <MoviesContextProvider>
           <Routes>
+            {/* Home */}
+            <Route path="/" element={<HomePage />} />
+            {/* Movies */}
             <Route
               path="/movies/favourites"
               element={<FavouriteMoviesPage />}
             />
-            <Route path="/movies/:id" element={<MoviePage />} />
-            <Route path="/" element={<HomePage />} />
-            <Route path="*" element={<Navigate to="/" />} />
-            <Route path="/reviews/:id" element={<MovieReviewPage />} />
             <Route path="/movies/upcoming" element={<UpcomingMoviesPage />} />
-            <Route path="/reviews/form" element={<AddMovieReviewPage />} />
             <Route path="/movies/mustwatch" element={<MustWatchMoviesPage />} />
+            <Route path="/movies/:id" element={<MoviePage />} />
+            {/* Reviews */}
+            <Route path="/reviews/:id" element={<MovieReviewPage />} />
+            <Route path="/reviews/form" element={<AddMovieReviewPage />} />
+            {/* Actors */}
             <Route path="/actors" element={<ActorListPage />} />
-            <Route path="/actors/:id" element={<ActorListPage />} />
             <Route path="/actors/:id" element={<ActorDetailsPage />} />
+            {/* Redirect */}
+            <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         </MoviesContextProvider>
       </BrowserRouter>

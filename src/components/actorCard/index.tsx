@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import React from "react";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
@@ -9,6 +8,7 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import img from "../../images/film-poster-placeholder.png";
 import { Actor } from "../../types/interfaces";
+import { Link } from "react-router-dom";
 
 const styles = {
   card: {
@@ -18,10 +18,7 @@ const styles = {
     transition: "transform 0.2s",
     "&:hover": { transform: "translateY(-5px)" },
   },
-  media: {
-    height: 200,
-    objectFit: "cover",
-  },
+  media: { height: 200, objectFit: "cover" },
   title: {
     fontWeight: "bold",
     fontSize: "1rem",
@@ -29,23 +26,19 @@ const styles = {
     height: "48px",
     overflow: "hidden",
   },
-  content: {
-    paddingBottom: "8px",
-  },
+  content: { paddingBottom: "8px" },
 };
-// This component renders an individual actor card
+
 interface ActorCardProps {
   actor: Actor;
 }
-// This component displays the actor's name, profile image, and known works
-const profileSize = "w185"; // Define the size of the profile image
-const profileBase = `https://image.tmdb.org/t/p/${profileSize}`; // Base URL for profile images
+
+const profileSize = "w185";
+const profileBase = `https://image.tmdb.org/t/p/${profileSize}`;
 
 const ActorCard: React.FC<ActorCardProps> = ({ actor }) => {
   const knownForNames =
-    actor.known_for
-      ?.map((known) => known.title || known.name)
-      .filter(Boolean) ?? []; // Extracting names of known works
+    actor.known_for?.map((k) => k.title || k.name).filter(Boolean) ?? [];
 
   return (
     <Card sx={styles.card}>
@@ -71,7 +64,7 @@ const ActorCard: React.FC<ActorCardProps> = ({ actor }) => {
       <CardActions
         sx={{ justifyContent: "space-between", padding: "0 16px 16px" }}
       >
-        <span /> {}
+        <span />
         <Link to={`/actors/${actor.id}`}>
           <Button size="small" variant="contained">
             More Info
@@ -83,3 +76,4 @@ const ActorCard: React.FC<ActorCardProps> = ({ actor }) => {
 };
 
 export default ActorCard;
+// Fetching movie images by ID (movie ID can be a string or number)
