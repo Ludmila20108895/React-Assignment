@@ -105,6 +105,7 @@ export interface DiscoverActors {
   total_pages: number;
   total_results: number;
 }
+// This interface extends the Actor interface to include additional details about an actor
 export interface ActorDetails extends Actor {
   biography: string;
   birthday: string | null;
