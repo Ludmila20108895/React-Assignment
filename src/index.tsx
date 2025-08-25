@@ -1,20 +1,13 @@
+// This is the entry point of the React application. It sets up the React Query client
+// with default options and wraps the main App component with the QueryClientProvider
+// to enable data fetching and caching throughout the app. The ReactQueryDevtools is
+// included for debugging purposes.
+// It also uses React.StrictMode to help identify potential problems in the application.
 import React from "react";
 import ReactDOM from "react-dom/client";
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { BrowserRouter, Route, Navigate, Routes } from "react-router-dom";
-import HomePage from "./pages/homePage";
-import MoviePage from "./pages/movieDetailsPage";
-import FavouriteMoviesPage from "./pages/favouriteMoviesPage";
-import MovieReviewPage from "./pages/movieReviewPage";
-import SiteHeader from "./components/siteHeader";
-import UpcomingMoviesPage from "./pages/upcomingMoviesPage";
+import App from "./App";
 import { QueryClientProvider, QueryClient } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
-import MoviesContextProvider from "./contexts/moviesContext";
-import AddMovieReviewPage from "./pages/addMovieReviewPage";
-import MustWatchMoviesPage from "./pages/mustWatchMoviesPage";
-import ActorListPage from "./pages/actorListPage";
-import ActorDetailsPage from "./pages/actorDetailsPage";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -26,42 +19,11 @@ const queryClient = new QueryClient({
   },
 });
 
-// eslint-disable-next-line react-refresh/only-export-components
-const App = () => {
-  return (
-    <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
-        <SiteHeader />
-        <MoviesContextProvider>
-          <Routes>
-            {/* Home */}
-            <Route path="/" element={<HomePage />} />
-            {/* Movies */}
-            <Route
-              path="/movies/favourites"
-              element={<FavouriteMoviesPage />}
-            />
-            <Route path="/movies/upcoming" element={<UpcomingMoviesPage />} />
-            <Route path="/movies/mustwatch" element={<MustWatchMoviesPage />} />
-            <Route path="/movies/:id" element={<MoviePage />} />
-            {/* Reviews */}
-            <Route path="/reviews/:id" element={<MovieReviewPage />} />
-            <Route path="/reviews/form" element={<AddMovieReviewPage />} />
-            {/* Actors */}
-            <Route path="/actors" element={<ActorListPage />} />
-            <Route path="/actors/:id" element={<ActorDetailsPage />} />
-            {/* Redirect */}
-            <Route path="*" element={<Navigate to="/" />} />
-          </Routes>
-        </MoviesContextProvider>
-      </BrowserRouter>
-      <ReactQueryDevtools initialIsOpen={false} />
-    </QueryClientProvider>
-  );
-};
-
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <App />
+    <QueryClientProvider client={queryClient}>
+      <App />
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
   </React.StrictMode>
 );
