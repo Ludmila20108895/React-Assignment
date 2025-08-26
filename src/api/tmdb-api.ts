@@ -1,9 +1,9 @@
 // Fetching movies from TMDB API and returning a promise that resolves to the movie data
-export const getMovies = () => {
+export const getMovies = (page = 1) => {
   return fetch(
     `https://api.themoviedb.org/3/discover/movie?api_key=${
       import.meta.env.VITE_TMDB_KEY // Using environment variable for API key
-    }&language=en-US&include_adult=false&include_video=false&page=1` // API endpoint for discovering movies
+    }&language=en-US&include_adult=false&include_video=false&page=${page}` // API endpoint for discovering movies
   )
     .then((response) => {
       if (!response.ok)
@@ -88,23 +88,23 @@ export const getMovieReviews = (id: string | number) => {
       return json.results;
     });
 };
-export const getUpcomingMovies = () => {
+export const getUpcomingMovies = (page = 1) => {
   return fetch(
     `https://api.themoviedb.org/3/movie/upcoming?api_key=${
       import.meta.env.VITE_TMDB_KEY
-    }&language=en-US&page=1`
+    }&language=en-US&page=${page}` // API endpoint for upcoming movies
   )
     .then((res) => res.json())
     .then((json) => json); // returns the full object with `results` array
 };
 
 // Fetching popular actors from TMDB
-export const getPopularActors = () => {
+export const getPopularActors = (page = 1) => {
   return fetch(
     `https://api.themoviedb.org/3/person/popular?api_key=${
       // Fetching popular actors
       import.meta.env.VITE_TMDB_KEY
-    }&language=en-US&page=1` // API endpoint for popular actors
+    }&language=en-US&page=${page}` // API endpoint for popular actors
   )
     .then((response) => {
       if (!response.ok)
@@ -118,19 +118,15 @@ export const getPopularActors = () => {
     });
 };
 // Fetching a single actor by ID
-export const getActor = (id: string) => {
+export const getActor = (id: string, language = "en-US") => {
   return fetch(
     `https://api.themoviedb.org/3/person/${id}?api_key=${
       import.meta.env.VITE_TMDB_KEY
-    }&language=en-US`
-  )
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error(`Unable to fetch actor. Status: ${response.status}`);
-      }
-      return response.json();
-    })
-    .catch((error) => {
-      throw error;
-    });
+    }&language=${language}` // API endpoint for fetching actor details by ID (with optional language parameter
+  ).then((response) => {
+    if (!response.ok) {
+      throw new Error(`Unable to fetch actor. Status: ${response.status}`);
+    }
+    return response.json();
+  });
 };

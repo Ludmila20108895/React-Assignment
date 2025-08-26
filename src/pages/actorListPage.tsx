@@ -4,21 +4,50 @@ import Spinner from "../components/spinner";
 import ActorListPageTemplate from "../components/templateActorListPage";
 import { DiscoverActors } from "../types/interfaces";
 import { getPopularActors } from "../api/tmdb-api";
+import Pagination from "@mui/material/Pagination"; // MUI Pagination component
+import Stack from "@mui/material/Stack"; // MUI Stack component for layout
+import Container from "@mui/material/Container"; // MUI Container component for layout
+import { useUrlPage } from "../hooks/userUrlPage"; // Custom hook to manage pagination via URL
 
 // This page displays a list of popular actors using the ActorListPageTemplate component
 // It fetches the data using react-query and handles loading and error states
 const ActorListPage: React.FC = () => {
-  const { data, isLoading, isError, error } = useQuery<DiscoverActors, Error>({
-    queryKey: ["popularActors"],
-    queryFn: getPopularActors,
-  });
+  const { page, setPage } = useUrlPage(); // Custom hook to manage pagination via URL
+  const { data, isLoading, isError, error, isFetching } = useQuery<
+    DiscoverActors,
+    Error
+  >(
+    ["popularActors", page], // Query key includes page number to refetch data on page change
+    () => getPopularActors(page), // Fetch function to get popular actors
+    { keepPreviousData: true } // Keep previous data while fetching new data
+  );
 
-  if (isLoading) return <Spinner />;
-  if (isError) return <h1>{error.message}</h1>; // Display error message if data fetching fails
+  if (isLoading && !data) return <Spinner />;
+  if (isError) return <h1>{error?.message}</h1>; // Display error message if data fetching fails
 
   const actors = data?.results ?? []; // Fallback to an empty array if data is undefined
+  const totalPages = Math.min(500, Math.max(1, data?.total_pages ?? 1)); // Ensure totalPages is between 1 and 500
 
-  return <ActorListPageTemplate title="Popular Actors" actors={actors} />; // Rendering the ActorListPageTemplate with fetched actors
+  return (
+    <Container maxWidth="lg" sx={{ pb: 3 }}>
+      <ActorListPageTemplate
+        title={`Popular Actors ${isFetching ? "(updating…)" : ""}`}
+        actors={actors}
+      />
+      {totalPages > 1 && (
+        <Stack direction="row" justifyContent="center" sx={{ mt: 2 }}>
+          <Pagination // MUI Pagination component
+            count={totalPages} // Total number of pages
+            page={page} // Current page number
+            onChange={(_, p) => setPage(p)} // Update page number on change
+            siblingCount={1}
+            boundaryCount={1}
+            shape="rounded"
+          />
+        </Stack>
+      )}
+    </Container>
+  );
 };
 
 export default ActorListPage;
