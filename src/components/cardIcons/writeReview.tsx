@@ -1,21 +1,26 @@
 import React from "react";
+import IconButton from "@mui/material/IconButton";
 import RateReviewIcon from "@mui/icons-material/RateReview";
-import { BaseMovieProps } from "../../types/interfaces";
 import { Link } from "react-router-dom";
+import { BaseMovieProps } from "../../types/interfaces";
 
-const WriteReviewIcon: React.FC<BaseMovieProps> = (movie) => {
+// Define the props for the WriteReviewIcon component
+interface WriteReviewIconProps {
+  movie: BaseMovieProps;
+}
+// Component to provide a link to the review form for a specific movie
+const WriteReviewIcon: React.FC<WriteReviewIconProps> = ({ movie }) => {
   return (
-    <Link
-      to={"/reviews/form"}
-      state={{
-        movieId: movie.id,
-      }}
+    <IconButton
+      aria-label="write review"
+      component={Link}
+      to="/reviews/form"
+      state={{ movieId: movie.id }} // Passing movie ID to the review form
     >
       <RateReviewIcon color="primary" fontSize="large" />
-    </Link>
+    </IconButton>
   );
 };
-
 export default WriteReviewIcon;
 
 // This component provides a link to the review form for a specific movie

@@ -3,9 +3,7 @@ import { useQueries } from "react-query"; // to run multiple queries in parallel
 import Spinner from "../components/spinner"; // loading component
 
 import Container from "@mui/material/Container"; // to center the page
-import Typography from "@mui/material/Typography"; // for page title
-import Grid from "@mui/material/Grid"; // for page layout
-
+import WriteReviewIcon from "../components/cardIcons/writeReview"; // icon component to write a review
 import PageTemplate from "../components/templateMovieListPage"; // page layout component
 import { MoviesContext } from "../contexts/moviesContext"; // to access the movies context
 import { getMovie } from "../api/tmdb-api"; // function to fetch movie details
@@ -41,13 +39,15 @@ const FavouriteMoviesPage: React.FC = () => {
   if (!movieIds || movieIds.length === 0) {
     return (
       <Container maxWidth="lg" sx={{ py: 3 }}>
-        <Typography variant="h5" sx={{ mb: 2 }}>
-          Favourite Movies
-        </Typography>
-        <Typography variant="body1">
+        <PageTemplate
+          title="Favourite Movies"
+          movies={[]}
+          action={() => null}
+        />
+        <div style={{ padding: 16, textAlign: "center" }}>
           You have no favourite movies yet. Go to the Home page and tap the
           heart icon to add some.
-        </Typography>
+        </div>
       </Container>
     );
   }
@@ -85,41 +85,26 @@ const FavouriteMoviesPage: React.FC = () => {
   };
 
   // Function to render the remove from favourites icon for each movie.
-  const removeFromFavourites = (movie: BaseMovieProps) => (
-    <RemoveFromFavouritesIcon movie={movie} />
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const action = (movie: BaseMovieProps) => (
+    <>
+      <RemoveFromFavouritesIcon movie={movie} />
+      <WriteReviewIcon movie={movie} />
+    </>
   );
 
   return (
     <Container maxWidth="lg" sx={{ py: 3 }}>
-      <Grid container spacing={2}>
-        <Grid item xs={12}></Grid>
-
-        <Typography variant="h5">Favourite Movies</Typography>
-      </Grid>
-      <Grid item xs={12}>
-        <MovieFilterUI
-          onFilterValuesChange={changeFilterValues}
-          titleFilter={filterValues[0].value}
-          genreFilter={filterValues[1].value}
-        />
-      </Grid>
-
-      <Grid item xs={12}>
-        <MovieFilterUI
-          onFilterValuesChange={changeFilterValues}
-          titleFilter={filterValues[0].value}
-          genreFilter={filterValues[1].value}
-        />
-      </Grid>
-
-      {/* Movie list (uses the existing template) */}
-      <Grid item xs={12}>
-        <PageTemplate
-          title="" // we show the page title above with Typography
-          movies={displayedMovies} // movies to display
-          action={(movie) => <RemoveFromFavouritesIcon movie={movie} />}
-        />
-      </Grid>
+      <PageTemplate
+        title="Favourite Movies"
+        movies={displayedMovies}
+        action={action}
+      />
+      <MovieFilterUI
+        onFilterValuesChange={changeFilterValues}
+        titleFilter={filterValues[0].value}
+        genreFilter={filterValues[1].value}
+      />
     </Container>
   );
 };
