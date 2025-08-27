@@ -4,16 +4,22 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { MoviesContext } from "../../contexts/moviesContext";
 import { BaseMovieProps } from "../../types/interfaces";
 
-const RemoveFromFavouritesIcon: React.FC<BaseMovieProps> = (movie) => {
-  const context = useContext(MoviesContext);
+interface RemoveFromFavouritesIconProps {
+  movie: BaseMovieProps;
+}
 
-  const onUserRequest = (e: MouseEvent<HTMLButtonElement>) => {
+const RemoveFromFavouritesIcon: React.FC<RemoveFromFavouritesIconProps> = ({
+  movie,
+}) => {
+  const { removeFromFavourites } = useContext(MoviesContext);
+
+  const onClick = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    context.removeFromFavourites(movie);
+    removeFromFavourites(movie);
   };
 
   return (
-    <IconButton aria-label="remove from favorites" onClick={onUserRequest}>
+    <IconButton aria-label="remove from favorites" onClick={onClick}>
       <DeleteIcon color="primary" fontSize="large" />
     </IconButton>
   );

@@ -43,7 +43,7 @@ const App: React.FC = () => {
           <Route path="/actors" element={<ActorListPage />} />
           <Route path="/actors/:id" element={<ActorDetailsPage />} />
 
-          {/* wildcard LAST */}
+          {/* wildcard */}
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </MoviesContextProvider>

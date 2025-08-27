@@ -1,40 +1,40 @@
+// Basic movie properties returned by TMDB for lists
 export interface BaseMovieProps {
-  title: string;
-  budget: number;
-  homepage: string | undefined;
   id: number;
-  imdb_id: string;
-  original_language: string;
+  title: string;
   overview: string;
   release_date: string;
   vote_average: number;
   popularity: number;
   poster_path?: string;
-  tagline: string;
-  runtime: number;
-  revenue: number;
-  vote_count: number;
-  favourite?: boolean;
-  genre_ids?: number[];
+  genre_ids?: number[]; // TMDB returns genre IDs for lists, full genre objects for details
+  favourite?: boolean; // local only, not from TMDB
 }
+
+// Reusable prop type for components that render a list of movies
 export interface BaseMovieListProps {
   movies: BaseMovieProps[];
   action: (movie: BaseMovieProps) => React.ReactNode;
 }
-
+//  Movie details
 export interface MovieDetailsProps extends BaseMovieProps {
-  genres: {
-    id: number;
-    name: string;
-  }[];
-  production_countries: {
-    iso_3166_1: string;
-    name: string;
-  }[];
+  budget?: number;
+  homepage?: string;
+  imdb_id?: string;
+  original_language?: string;
+  tagline?: string;
+  runtime?: number;
+  revenue?: number;
+  vote_count?: number;
+
+  genres: { id: number; name: string }[];
+  production_countries: { iso_3166_1: string; name: string }[];
 }
+
+// Images for a movie
 export interface MovieImage {
   file_path: string;
-  aspect_ratio?: number; //some props are optional...
+  aspect_ratio?: number;
   height?: number;
   iso_639_1?: string;
   vote_average?: number;
@@ -42,70 +42,65 @@ export interface MovieImage {
   width?: number;
 }
 
+// Props for pages that display movie details, including images
 export interface MoviePageProps {
   movie: MovieDetailsProps;
   images: MovieImage[];
 }
-export type FilterOption = "title" | "genre";
-export interface MovieListPageTemplateProps extends BaseMovieListProps {
-  title: string;
-}
-export interface Review {
-  id: string;
-  content: string;
-  author: string;
-}
-export interface GenreData {
-  genres: {
-    id: string;
-    name: string;
-  }[];
-}
 
+// Data returned by discover/upcoming/popular list endpoints
 export interface DiscoverMovies {
   page: number;
   total_pages: number;
   total_results: number;
   results: BaseMovieProps[];
 }
-export interface BaseMovieListProps {
-  movies: BaseMovieProps[];
-  action: (m: BaseMovieProps) => React.ReactNode;
+
+// Filtering UI types
+export type FilterOption = "title" | "genre";
+
+export interface MovieListPageTemplateProps extends BaseMovieListProps {
+  title: string;
 }
-// This interface defines the structure of a movie object used across the application
-// It includes properties like title, budget, homepage, id, and various other movie details
-export interface Review {
+
+// TMDB API review item (from /movie/{id}/reviews)
+export interface ApiReview {
+  id: string;
+  content: string;
+  author: string;
+}
+
+// Local review item (stored in app)
+export interface UserReview {
   author: string;
   content: string;
   agree: boolean;
   rating: number;
   movieId: number;
 }
-// This interface defines the structure of a movie review
 
-// This interface defines the structure of an actor object (Popular People API from TMDB)
+// Actors
 export interface Actor {
-  // It includes properties like id, name, profile_path, and known_for
   id: number;
   name: string;
   profile_path: string | null;
   known_for?: Array<{
     id: number;
     media_type?: "movie" | "tv";
-    title?: string; // for movies
-    name?: string; // for TV
+    title?: string; // movies
+    name?: string; // tv
     poster_path?: string | null;
   }>;
 }
-
+// Data returned by /person/popular
 export interface DiscoverActors {
-  // This interface defines the structure of a response containing a list of actors
   page: number;
   results: Actor[];
   total_pages: number;
   total_results: number;
 }
-// This interface extends the Actor interface to include additional details about an actor
+
+// Detailed actor information from /person/{person_id}
 export interface ActorDetails extends Actor {
   biography: string;
   birthday: string | null;
