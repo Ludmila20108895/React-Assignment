@@ -1,3 +1,6 @@
+// siteHeader
+
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState, MouseEvent } from "react";
 import AppBar from "@mui/material/AppBar"; // Import AppBar for the header
 import Toolbar from "@mui/material/Toolbar"; // Import Toolbar for layout within the AppBar
@@ -12,12 +15,9 @@ import { useNavigate } from "react-router-dom"; // Import useNavigate for naviga
 import { useTheme } from "@mui/material/styles"; // Import useTheme for responsive design
 import useMediaQuery from "@mui/material/useMediaQuery"; // Import useMediaQuery for responsive breakpoints
 import LanguageOption from "./languageOption";
-
-const styles = {
-  title: {
-    flexGrow: 1,
-  },
-};
+import { useLanguage } from "../../contexts/languageContext";
+import translations from "../../i18n/translations";
+import Box from "@mui/material/Box";
 
 const Offset = styled("div")(({ theme }) => theme.mixins.toolbar);
 
@@ -29,17 +29,30 @@ const SiteHeader: React.FC = () => {
   const open = Boolean(anchorEl);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("lg"));
+  const { uiLang } = useLanguage();
+  const lang = uiLang as keyof typeof translations;
+  const t = translations[lang];
 
-  // Define the menu options with labels and paths
+  // Defines the menu options with labels and paths
   // Each option corresponds to a page in the application
-  const menuOptions = [
-    { label: "HOME", path: "/" }, // Home page
-    { label: "FAVORITES", path: "/movies/favourites" }, // Favorites page
-    { label: "UPCOMING", path: "/movies/upcoming" }, // Upcoming movies page
-    { label: "MUST WATCH", path: "/movies/mustwatch" }, // Must Watch movies page
-    { label: "ACTORS", path: "/actors" }, // Actors list page
-  ];
+  type MenuOpt = { label: string; path: string };
 
+  const menuOptions: MenuOpt[] = [
+    { label: t.navDiscover, path: "/" },
+    {
+      label: t.navFavorites,
+      path: "/movies/favourites",
+    },
+    {
+      label: t.navUpcoming,
+      path: "/movies/upcoming",
+    },
+    {
+      label: t.navMustWatch,
+      path: "/movies/mustwatch",
+    },
+    { label: t.navActors, path: "/actors" },
+  ];
   // Function to handle menu item selection
   // It navigates to the selected page URL
   // It uses the useNavigate hook from react-router-dom for navigation
@@ -55,15 +68,28 @@ const SiteHeader: React.FC = () => {
   return (
     <>
       <AppBar position="fixed" elevation={0} color="primary">
-        <Toolbar>
-          <Typography variant="h6" sx={styles.title}>
+        <Toolbar sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+          <Box sx={{ flexShrink: 0 }}>
             <LanguageOption />
+          </Box>
+          {/*   the title in the center */}
+          <Typography
+            variant="h4"
+            sx={{
+              mx: 2,
+              flex: 1,
+              minWidth: 0,
+              textAlign: "center",
+              whiteSpace: "nowrap",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+            }}
+          >
+            {translations[lang].header}{" "}
           </Typography>
-          <Typography variant="h4" sx={styles.title}>
-            Movie App
-          </Typography>
+
           {isMobile ? (
-            <>
+            <Box sx={{ flexShrink: 0 }}>
               <IconButton
                 aria-label="menu"
                 aria-controls="menu-appbar"
@@ -91,26 +117,26 @@ const SiteHeader: React.FC = () => {
               >
                 {menuOptions.map((opt) => (
                   <MenuItem
-                    key={opt.label}
+                    key={opt.path}
                     onClick={() => handleMenuSelect(opt.path)}
                   >
                     {opt.label}
                   </MenuItem>
                 ))}
               </Menu>
-            </>
+            </Box>
           ) : (
-            <>
+            <Box sx={{ display: "flex", gap: 1, flexShrink: 0 }}>
               {menuOptions.map((opt) => (
                 <Button
-                  key={opt.label}
+                  key={opt.path}
                   color="inherit"
                   onClick={() => handleMenuSelect(opt.path)}
                 >
                   {opt.label}
                 </Button>
               ))}
-            </>
+            </Box>
           )}
         </Toolbar>
       </AppBar>

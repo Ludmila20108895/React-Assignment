@@ -18,6 +18,7 @@ import RemoveFromFavouritesIcon from "../components/cardIcons/removeFromFavourit
 import { BaseMovieProps, MovieDetailsProps } from "../types/interfaces"; // TypeScript interfaces
 
 import { useLanguage } from "../contexts/languageContext";
+import translations from "../i18n/translations";
 
 const titleFiltering = {
   name: "title",
@@ -32,7 +33,7 @@ const genreFiltering = {
 
 const FavouriteMoviesPage: React.FC = () => {
   const { favourites: movieIds } = useContext(MoviesContext);
-  const { language } = useLanguage(); // current language
+  const { language } = useLanguage();
   const { filterValues, setFilterValues, filterFunction } = useFiltering([
     titleFiltering,
     genreFiltering,
@@ -43,7 +44,9 @@ const FavouriteMoviesPage: React.FC = () => {
     return (
       <Container maxWidth="lg" sx={{ py: 3 }}>
         <PageTemplate
-          title="Favourite Movies"
+          title={
+            translations[language as keyof typeof translations].favouriteMovies
+          }
           movies={[]}
           action={() => null}
         />

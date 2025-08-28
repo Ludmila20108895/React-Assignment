@@ -18,8 +18,9 @@ import Pagination from "@mui/material/Pagination"; // the pagination component
 import Stack from "@mui/material/Stack"; // for layout of the pagination
 import { useUrlPage } from "../hooks/userUrlPage"; // my hook to read & write ?page= in the URL
 
-//
+// imports for languages + translations
 import { useLanguage } from "../contexts/languageContext";
+import translations from "../i18n/translations";
 
 // eslint-disable-next-line react-hooks/rules-of-hooks
 const titleFiltering = { name: "title", value: "", condition: titleFilter }; // default: no title filter
@@ -28,7 +29,8 @@ const genreFiltering = { name: "genre", value: "0", condition: genreFilter }; //
 const HomePage: React.FC = () => {
   // Get the current page number from the URL, default to 1 if not present
   const { page, setPage } = useUrlPage();
-  const { language } = useLanguage(); //
+  const { language, uiLang } = useLanguage(); //
+  const lang = uiLang as keyof typeof translations;
 
   // Use React Query to fetch movies for the current page
 
@@ -69,7 +71,9 @@ const HomePage: React.FC = () => {
   return (
     <Container maxWidth="lg" sx={{ pb: 3 }}>
       <PageTemplate
-        title={`Discover Movies ${isFetching ? "(updating…)" : ""}`}
+        title={`${translations[lang].discoverMovies} ${
+          isFetching ? "(updating…)" : ""
+        }`}
         movies={displayedMovies}
         action={(movie: BaseMovieProps) => (
           <AddToFavouritesIcon movie={movie} />
