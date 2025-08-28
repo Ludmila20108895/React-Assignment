@@ -57,7 +57,7 @@ const translations = {
     // --- actor details ---
     biography: "Biografía",
     backToActors: "Volver a Actores",
-    moreInfo: "Más Información",
+    moreInfo: "Información",
     birthday: "Fecha de nacimiento",
     placeOfBirth: "Lugar de nacimiento",
     alsoKnownAs: "También conocido como",
@@ -95,7 +95,7 @@ const translations = {
     // --- actor details ---
     biography: "Biographie",
     backToActors: "Retour aux Acteurs",
-    moreInfo: "Plus d'infos",
+    moreInfo: " Information",
     birthday: "Date de naissance",
     placeOfBirth: "Lieu de naissance",
     alsoKnownAs: "Aussi connu sous le nom",

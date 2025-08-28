@@ -9,12 +9,16 @@ import Stack from "@mui/material/Stack"; // MUI Stack component for layout
 import Container from "@mui/material/Container"; // MUI Container component for layout
 import { useUrlPage } from "../hooks/userUrlPage"; // Custom hook to manage pagination via URL
 import { useLanguage } from "../contexts/languageContext";
+import translations from "../i18n/translations";
 
 // This page displays a list of popular actors using the ActorListPageTemplate component
 // It fetches the data using react-query and handles loading and error states
 const ActorListPage: React.FC = () => {
   const { page, setPage } = useUrlPage(); // Custom hook to manage pagination via URL
-  const { language } = useLanguage();
+  const { language, uiLang } = useLanguage();
+  const lang = uiLang as keyof typeof translations;
+  const t = translations[lang];
+
   const { data, isLoading, isError, error, isFetching } = useQuery<
     DiscoverActors,
     Error
@@ -33,7 +37,7 @@ const ActorListPage: React.FC = () => {
   return (
     <Container maxWidth="lg" sx={{ pb: 3 }}>
       <ActorListPageTemplate
-        title={`Popular Actors ${isFetching ? "(updating…)" : ""}`}
+        title={`${t.actorList} ${isFetching ? "(updating…)" : ""}`}
         actors={actors}
       />
       {totalPages > 1 && (
