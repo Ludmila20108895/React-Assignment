@@ -6,17 +6,22 @@ import { useQuery } from "react-query";
 import { getMovie } from "../api/tmdb-api";
 import Spinner from "../components/spinner";
 import { MovieDetailsProps } from "../types/interfaces";
+import { useLanguage } from "../contexts/languageContext";
+import translations from "../i18n/translations";
 
 const WriteReviewPage: React.FC = () => {
   const location = useLocation();
   const { movieId } = location.state;
+  const { language, uiLang } = useLanguage();
+  const lang = uiLang as keyof typeof translations;
+  const t = translations[lang];
   const {
     data: movie,
     error,
     isLoading,
     isError,
-  } = useQuery<MovieDetailsProps, Error>(["movie", movieId], () =>
-    getMovie(movieId)
+  } = useQuery<MovieDetailsProps, Error>(["movie", movieId, language], () =>
+    getMovie(movieId, language)
   );
 
   if (isLoading) {
@@ -33,7 +38,7 @@ const WriteReviewPage: React.FC = () => {
           <ReviewForm {...movie} />
         </PageTemplate>
       ) : (
-        <p>Waiting for movie review details</p>
+        <p>{t.waitingMovieDetails}</p>
       )}
     </>
   );
