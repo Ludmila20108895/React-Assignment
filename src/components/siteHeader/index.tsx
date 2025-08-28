@@ -11,6 +11,7 @@ import Menu from "@mui/material/Menu"; // Import Menu for the dropdown menu func
 import { useNavigate } from "react-router-dom"; // Import useNavigate for navigation
 import { useTheme } from "@mui/material/styles"; // Import useTheme for responsive design
 import useMediaQuery from "@mui/material/useMediaQuery"; // Import useMediaQuery for responsive breakpoints
+import LanguageOption from "./languageOption";
 
 const styles = {
   title: {
@@ -56,10 +57,10 @@ const SiteHeader: React.FC = () => {
       <AppBar position="fixed" elevation={0} color="primary">
         <Toolbar>
           <Typography variant="h6" sx={styles.title}>
-            Ludmila Bulat
+            <LanguageOption />
           </Typography>
           <Typography variant="h4" sx={styles.title}>
-            All you ever wanted to know about Movies!
+            Movie App
           </Typography>
           {isMobile ? (
             <>

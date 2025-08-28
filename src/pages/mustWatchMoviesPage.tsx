@@ -17,6 +17,8 @@ import RemoveFromMustWatchIcon from "../components/cardIcons/removeFromMustWatch
 import { BaseMovieProps, MovieDetailsProps } from "../types/interfaces"; // Importing types for TypeScript support
 import WriteReviewIcon from "../components/cardIcons/writeReview";
 
+import { useLanguage } from "../contexts/languageContext";
+
 // Configuration for title/genre filtering
 const titleFiltering = {
   name: "title",
@@ -32,7 +34,7 @@ const genreFiltering = {
 // Main component for the Must Watch Movies page
 const MustWatchMoviesPage: React.FC = () => {
   const { mustWatch: movieIds } = useContext(MoviesContext); // Accessing must-watch movie IDs from context
-
+  const { language } = useLanguage();
   // Hook for managing filtering state and logic
   const { filterValues, setFilterValues, filterFunction } = useFiltering([
     titleFiltering,
@@ -60,8 +62,8 @@ const MustWatchMoviesPage: React.FC = () => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const queries = useQueries(
     movieIds.map((movieId) => ({
-      queryKey: ["movie", String(movieId)], // Unique key for each movie query
-      queryFn: () => getMovie(String(movieId)), // Fetching movie details
+      queryKey: ["movie", String(movieId), language], // Unique key for each movie query
+      queryFn: () => getMovie(String(movieId), language), // Fetching movie details
     }))
   );
 

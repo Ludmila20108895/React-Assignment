@@ -17,6 +17,8 @@ import MovieFilterUI, {
 import RemoveFromFavouritesIcon from "../components/cardIcons/removeFromFavourites"; // icon component to remove from favourites
 import { BaseMovieProps, MovieDetailsProps } from "../types/interfaces"; // TypeScript interfaces
 
+import { useLanguage } from "../contexts/languageContext";
+
 const titleFiltering = {
   name: "title",
   value: "",
@@ -30,6 +32,7 @@ const genreFiltering = {
 
 const FavouriteMoviesPage: React.FC = () => {
   const { favourites: movieIds } = useContext(MoviesContext);
+  const { language } = useLanguage(); // current language
   const { filterValues, setFilterValues, filterFunction } = useFiltering([
     titleFiltering,
     genreFiltering,
@@ -56,8 +59,8 @@ const FavouriteMoviesPage: React.FC = () => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const favouriteMovieQueries = useQueries(
     movieIds.map((movieId) => ({
-      queryKey: ["movie", String(movieId)],
-      queryFn: () => getMovie(String(movieId)),
+      queryKey: ["movie", String(movieId), language],
+      queryFn: () => getMovie(String(movieId), language),
     }))
   );
 

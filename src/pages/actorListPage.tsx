@@ -8,17 +8,19 @@ import Pagination from "@mui/material/Pagination"; // MUI Pagination component
 import Stack from "@mui/material/Stack"; // MUI Stack component for layout
 import Container from "@mui/material/Container"; // MUI Container component for layout
 import { useUrlPage } from "../hooks/userUrlPage"; // Custom hook to manage pagination via URL
+import { useLanguage } from "../contexts/languageContext";
 
 // This page displays a list of popular actors using the ActorListPageTemplate component
 // It fetches the data using react-query and handles loading and error states
 const ActorListPage: React.FC = () => {
   const { page, setPage } = useUrlPage(); // Custom hook to manage pagination via URL
+  const { language } = useLanguage();
   const { data, isLoading, isError, error, isFetching } = useQuery<
     DiscoverActors,
     Error
   >(
-    ["popularActors", page], // Query key includes page number to refetch data on page change
-    () => getPopularActors(page), // Fetch function to get popular actors
+    ["popularActors", page, language], // Query key includes page number to refetch data on page change
+    () => getPopularActors(page, language), // Fetch function to get popular actors
     { keepPreviousData: true } // Keep previous data while fetching new data
   );
 

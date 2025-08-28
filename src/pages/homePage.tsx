@@ -18,6 +18,11 @@ import Pagination from "@mui/material/Pagination"; // the pagination component
 import Stack from "@mui/material/Stack"; // for layout of the pagination
 import { useUrlPage } from "../hooks/userUrlPage"; // my hook to read & write ?page= in the URL
 
+//
+import { useLanguage } from "../contexts/languageContext";
+
+// eslint-disable-next-line react-hooks/rules-of-hooks
+const { language } = useLanguage(); //
 const titleFiltering = { name: "title", value: "", condition: titleFilter }; // default: no title filter
 const genreFiltering = { name: "genre", value: "0", condition: genreFilter }; // default: no genre filter
 
@@ -26,10 +31,11 @@ const HomePage: React.FC = () => {
   const { page, setPage } = useUrlPage();
 
   // Use React Query to fetch movies for the current page
+
   const { data, error, isLoading, isError, isFetching } = useQuery<
     DiscoverMovies,
     Error
-  >(["discoverMovies", page], () => getMovies(page), {
+  >(["discoverMovies", page, language], () => getMovies(page, language), {
     keepPreviousData: true,
   });
   // keepPreviousData to avoid empty state between page transitions
@@ -44,11 +50,11 @@ const HomePage: React.FC = () => {
   if (isLoading && !data) return <Spinner />; // only show spinner on first load
   if (isError) return <h1>{error.message}</h1>; // error state
 
-  // Movies for this page, then apply client-side filters (title/genre) as before
+  //
   const movies = (data?.results ?? []) as BaseMovieProps[]; // to satisfy TS
   const displayedMovies = filterFunction(movies); // filterFunction is from useFiltering
 
-  // TMDB returns a maximum of 500 pages, but total_pages can be more than that
+  // TMDB returns a maximum of 500 pages
   const totalPages = Math.min(500, Math.max(1, data?.total_pages ?? 1));
 
   const changeFilterValues = (type: string, value: string) => {

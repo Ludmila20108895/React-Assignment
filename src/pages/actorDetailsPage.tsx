@@ -12,10 +12,14 @@ import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
+import { useLanguage } from "../contexts/languageContext";
 
 import img from "../images/film-poster-placeholder.png";
 
 const profileBase = "https://image.tmdb.org/t/p/w342";
+
+// eslint-disable-next-line react-hooks/rules-of-hooks
+const { language } = useLanguage();
 
 const ActorDetailsPage: React.FC = () => {
   const { id = "" } = useParams();
@@ -26,8 +30,8 @@ const ActorDetailsPage: React.FC = () => {
     isError,
     error,
   } = useQuery<ActorDetails, Error>({
-    queryKey: ["actor", id],
-    queryFn: () => getActor(id),
+    queryKey: ["actor", id, language],
+    queryFn: () => getActor(id, language),
   });
 
   if (isLoading) return <Spinner />;

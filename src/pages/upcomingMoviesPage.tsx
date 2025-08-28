@@ -17,19 +17,25 @@ import Pagination from "@mui/material/Pagination"; // Importing Pagination compo
 import Stack from "@mui/material/Stack"; // Importing Stack component from Material UI for layout
 import { useUrlPage } from "../hooks/userUrlPage"; // Importing custom hook to manage page number in URL
 
+import { useLanguage } from "../contexts/languageContext";
+
 const titleFiltering = { name: "title", value: "", condition: titleFilter }; // Defining the title filtering criteria
 const genreFiltering = { name: "genre", value: "0", condition: genreFilter }; // Defining the genre filtering criteria
 
 const UpcomingMoviesPage: React.FC = () => {
   const { page, setPage } = useUrlPage(); // Using custom hook to get and set the current page number from URL
-
+  const { language } = useLanguage();
   // Using react-query's useQuery hook to fetch upcoming movies data
   const { data, isLoading, error, isFetching } = useQuery<
     DiscoverMovies,
     Error
-  >(["upcomingMovies", page], () => getUpcomingMovies(page), {
-    keepPreviousData: true,
-  });
+  >(
+    ["upcomingMovies", page, language],
+    () => getUpcomingMovies(page, language),
+    {
+      keepPreviousData: true,
+    }
+  );
 
   // Using custom filtering hook to manage filter values and filtering function
   const { filterValues, setFilterValues, filterFunction } = useFiltering([
