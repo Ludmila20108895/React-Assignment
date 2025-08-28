@@ -23,8 +23,8 @@ const translations = {
     birthday: "Birthday",
     placeOfBirth: "Place of Birth",
     alsoKnownAs: "Also known as",
-    hopepage: "Homepage",
-    noBiograhy: "No biography available",
+    homepage: "Homepage",
+    noBiography: "No biography available.",
 
     // --reviews ---
     addReview: "Add Review",

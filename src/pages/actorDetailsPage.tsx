@@ -12,7 +12,9 @@ import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
+
 import { useLanguage } from "../contexts/languageContext";
+import translations from "../i18n/translations";
 
 import img from "../images/film-poster-placeholder.png";
 
@@ -20,7 +22,9 @@ const profileBase = "https://image.tmdb.org/t/p/w342";
 
 const ActorDetailsPage: React.FC = () => {
   const { id = "" } = useParams();
-  const { language } = useLanguage();
+  const { language, uiLang } = useLanguage();
+  const lang = uiLang as keyof typeof translations;
+  const t = translations[lang];
 
   const {
     data: actor,
@@ -39,7 +43,7 @@ const ActorDetailsPage: React.FC = () => {
   return (
     <Container maxWidth="lg" sx={{ py: 3 }}>
       <Button component={Link} to="/actors" variant="outlined" sx={{ mb: 2 }}>
-        ← Back to Actors
+        ← {t.backToActors}
       </Button>
 
       <Grid container spacing={3}>
@@ -59,26 +63,26 @@ const ActorDetailsPage: React.FC = () => {
 
               {actor.birthday && (
                 <Typography variant="body2" color="text.secondary">
-                  Birthday: {actor.birthday}
+                  {t.birthday}: {actor.birthday}
                 </Typography>
               )}
 
               {actor.place_of_birth && (
                 <Typography variant="body2" color="text.secondary">
-                  Place of birth: {actor.place_of_birth}
+                  {t.placeOfBirth}: {actor.place_of_birth}
                 </Typography>
               )}
 
               {actor.also_known_as && actor.also_known_as.length > 0 && (
                 <Typography variant="body2" color="text.secondary">
-                  Also known as: {actor.also_known_as.slice(0, 3).join(", ")}
+                  {t.alsoKnownAs}: {actor.also_known_as.slice(0, 3).join(", ")}
                 </Typography>
               )}
 
               {actor.homepage && (
                 <Typography variant="body2" sx={{ mt: 1 }}>
                   <a href={actor.homepage} target="_blank" rel="noreferrer">
-                    Homepage
+                    {t.homepage}
                   </a>
                 </Typography>
               )}
@@ -88,10 +92,10 @@ const ActorDetailsPage: React.FC = () => {
 
         <Grid item xs={12} md={8}>
           <Typography variant="h6" gutterBottom>
-            Biography
+            {t.biography}
           </Typography>
           <Typography variant="body1" sx={{ whiteSpace: "pre-line" }}>
-            {actor.biography || "No biography available."}
+            {actor.biography || t.noBiography}
           </Typography>
         </Grid>
       </Grid>
