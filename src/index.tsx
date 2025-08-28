@@ -5,6 +5,7 @@ import App from "./App"; // Import the main App component and routes
 import { QueryClientProvider, QueryClient } from "react-query"; // Import QueryClientProvider and QueryClient
 import { ReactQueryDevtools } from "react-query/devtools"; // Import ReactQueryDevtools
 import { LanguageProvider } from "./contexts/languageContext"; // Import LanguageProvider
+import MoviesContextProvider from "./contexts/moviesContext";
 
 // Create a QueryClient instance with default options for react-query
 const queryClient = new QueryClient({
@@ -21,7 +22,9 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
       <LanguageProvider>
-        <App />
+        <MoviesContextProvider>
+          <App />
+        </MoviesContextProvider>
       </LanguageProvider>
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>

@@ -18,35 +18,31 @@ import MustWatchMoviesPage from "./pages/mustWatchMoviesPage";
 import ActorListPage from "./pages/actorListPage";
 import ActorDetailsPage from "./pages/actorDetailsPage";
 
-import MoviesContextProvider from "./contexts/moviesContext";
-
 const App: React.FC = () => {
   return (
     <BrowserRouter>
       <SiteHeader />
-      <MoviesContextProvider>
-        <Routes>
-          {/* Home */}
-          <Route path="/" element={<HomePage />} />
+      <Routes>
+        {/* Home */}
+        <Route path="/" element={<HomePage />} />
 
-          {/* Movies */}
-          <Route path="/movies/favourites" element={<FavouriteMoviesPage />} />
-          <Route path="/movies/upcoming" element={<UpcomingMoviesPage />} />
-          <Route path="/movies/mustwatch" element={<MustWatchMoviesPage />} />
-          <Route path="/movies/:id" element={<MoviePage />} />
+        {/* Movies */}
+        <Route path="/movies/favourites" element={<FavouriteMoviesPage />} />
+        <Route path="/movies/upcoming" element={<UpcomingMoviesPage />} />
+        <Route path="/movies/mustwatch" element={<MustWatchMoviesPage />} />
+        <Route path="/movies/:id" element={<MoviePage />} />
 
-          {/* Reviews */}
-          <Route path="/reviews/:id" element={<MovieReviewPage />} />
-          <Route path="/reviews/form" element={<AddMovieReviewPage />} />
+        {/* Reviews */}
+        <Route path="/reviews/:id" element={<MovieReviewPage />} />
+        <Route path="/reviews/form" element={<AddMovieReviewPage />} />
 
-          {/* Actors */}
-          <Route path="/actors" element={<ActorListPage />} />
-          <Route path="/actors/:id" element={<ActorDetailsPage />} />
+        {/* Actors */}
+        <Route path="/actors" element={<ActorListPage />} />
+        <Route path="/actors/:id" element={<ActorDetailsPage />} />
 
-          {/* wildcard */}
-          <Route path="*" element={<Navigate to="/" />} />
-        </Routes>
-      </MoviesContextProvider>
+        {/* wildcard */}
+        <Route path="*" element={<Navigate to="/" />} />
+      </Routes>
     </BrowserRouter>
   );
 };

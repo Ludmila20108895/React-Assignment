@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState, useCallback } from "react";
 import { BaseMovieProps } from "../types/interfaces";
-import { Review } from "../types/interfaces";
+import { UserReview } from "../types/interfaces";
 
 interface MovieContextInterface {
   favourites: number[];
   addToFavourites: (movie: BaseMovieProps) => void;
   removeFromFavourites: (movie: BaseMovieProps) => void;
-  addReview: (movie: BaseMovieProps, review: Review) => void;
+  addReview: (movie: BaseMovieProps, review: UserReview) => void;
   addToMustWatch: (movie: BaseMovieProps) => void;
   mustWatch: number[];
   removeFromMustWatch: (movie: BaseMovieProps) => void;
@@ -31,7 +31,7 @@ export const MoviesContext =
 const MoviesContextProvider: React.FC<React.PropsWithChildren> = ({
   children,
 }) => {
-  const [myReviews, setMyReviews] = useState<Review[]>([]);
+  const [myReviews, setMyReviews] = useState<UserReview[]>([]);
 
   const [favourites, setFavourites] = useState<number[]>([]);
   const [mustWatch, setMustWatch] = useState<number[]>([]);
@@ -65,7 +65,7 @@ const MoviesContextProvider: React.FC<React.PropsWithChildren> = ({
     );
   }, []);
 
-  const addReview = (movie: BaseMovieProps, review: Review) => {
+  const addReview = (movie: BaseMovieProps, review: UserReview) => {
     // NEW
     setMyReviews({ ...myReviews, [movie.id]: review });
   };

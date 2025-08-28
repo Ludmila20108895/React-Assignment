@@ -18,11 +18,9 @@ import img from "../images/film-poster-placeholder.png";
 
 const profileBase = "https://image.tmdb.org/t/p/w342";
 
-// eslint-disable-next-line react-hooks/rules-of-hooks
-const { language } = useLanguage();
-
 const ActorDetailsPage: React.FC = () => {
   const { id = "" } = useParams();
+  const { language } = useLanguage();
 
   const {
     data: actor,

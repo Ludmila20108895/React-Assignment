@@ -22,7 +22,7 @@ export const getMovie = (id: string, language = "en-US") => {
   return fetch(
     `https://api.themoviedb.org/3/movie/${id}?api_key=${
       import.meta.env.VITE_TMDB_KEY
-    }$language=${language}`
+    }&language=${language}`
   )
     .then((response) => {
       if (!response.ok) {
@@ -80,7 +80,7 @@ export const getMovieReviews = (id: string | number, language = "en-US") => {
   return fetch(
     `https://api.themoviedb.org/3/movie/${id}/reviews?api_key=${
       import.meta.env.VITE_TMDB_KEY
-    }$language=${language}`
+    }&language=${language}`
   )
     .then((res) => res.json())
     .then((json) => {

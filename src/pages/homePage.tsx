@@ -22,13 +22,13 @@ import { useUrlPage } from "../hooks/userUrlPage"; // my hook to read & write ?p
 import { useLanguage } from "../contexts/languageContext";
 
 // eslint-disable-next-line react-hooks/rules-of-hooks
-const { language } = useLanguage(); //
 const titleFiltering = { name: "title", value: "", condition: titleFilter }; // default: no title filter
 const genreFiltering = { name: "genre", value: "0", condition: genreFilter }; // default: no genre filter
 
 const HomePage: React.FC = () => {
   // Get the current page number from the URL, default to 1 if not present
   const { page, setPage } = useUrlPage();
+  const { language } = useLanguage(); //
 
   // Use React Query to fetch movies for the current page
 
