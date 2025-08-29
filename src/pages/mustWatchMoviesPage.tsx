@@ -18,6 +18,7 @@ import { BaseMovieProps, MovieDetailsProps } from "../types/interfaces"; // Impo
 import WriteReviewIcon from "../components/cardIcons/writeReview";
 
 import { useLanguage } from "../contexts/languageContext";
+import translations from "../i18n/translations";
 
 // Configuration for title/genre filtering
 const titleFiltering = {
@@ -34,7 +35,10 @@ const genreFiltering = {
 // Main component for the Must Watch Movies page
 const MustWatchMoviesPage: React.FC = () => {
   const { mustWatch: movieIds } = useContext(MoviesContext); // Accessing must-watch movie IDs from context
-  const { language } = useLanguage();
+  const { language, uiLang } = useLanguage();
+  const lang = uiLang as keyof typeof translations;
+  const t = translations[lang];
+
   // Hook for managing filtering state and logic
   const { filterValues, setFilterValues, filterFunction } = useFiltering([
     titleFiltering,
@@ -46,14 +50,11 @@ const MustWatchMoviesPage: React.FC = () => {
     return (
       <Container maxWidth="lg" sx={{ py: 3 }}>
         <PageTemplate
-          title="Must Watch Movies"
+          title={t.mustWatchMovies}
           movies={[]}
           action={() => null}
         />
-        <div style={{ padding: 16, textAlign: "center" }}>
-          You haven’t added any Must Watch movies yet. Go to Upcoming Movies and
-          add some!
-        </div>
+        <div style={{ padding: 16, textAlign: "center" }}>{t.noMustWatch}</div>
       </Container>
     );
   }
