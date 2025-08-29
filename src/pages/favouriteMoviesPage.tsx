@@ -33,7 +33,10 @@ const genreFiltering = {
 
 const FavouriteMoviesPage: React.FC = () => {
   const { favourites: movieIds } = useContext(MoviesContext);
-  const { language } = useLanguage();
+  const { language, uiLang } = useLanguage();
+  const lang = uiLang as keyof typeof translations;
+  const t = translations[lang];
+
   const { filterValues, setFilterValues, filterFunction } = useFiltering([
     titleFiltering,
     genreFiltering,
@@ -44,16 +47,11 @@ const FavouriteMoviesPage: React.FC = () => {
     return (
       <Container maxWidth="lg" sx={{ py: 3 }}>
         <PageTemplate
-          title={
-            translations[language as keyof typeof translations].favouriteMovies
-          }
+          title={t.favouriteMovies}
           movies={[]}
           action={() => null}
         />
-        <div style={{ padding: 16, textAlign: "center" }}>
-          You have no favourite movies yet. Go to the Home page and tap the
-          heart icon to add some.
-        </div>
+        <div style={{ padding: 16, textAlign: "center" }}>{t.noFavourites}</div>
       </Container>
     );
   }
@@ -102,7 +100,7 @@ const FavouriteMoviesPage: React.FC = () => {
   return (
     <Container maxWidth="lg" sx={{ py: 3 }}>
       <PageTemplate
-        title="Favourite Movies"
+        title={t.favouriteMovies}
         movies={displayedMovies}
         action={action}
       />
