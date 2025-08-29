@@ -31,6 +31,7 @@ const HomePage: React.FC = () => {
   const { page, setPage } = useUrlPage();
   const { language, uiLang } = useLanguage(); //
   const lang = uiLang as keyof typeof translations;
+  const t = translations[lang];
 
   // Use React Query to fetch movies for the current page
 
@@ -71,9 +72,7 @@ const HomePage: React.FC = () => {
   return (
     <Container maxWidth="lg" sx={{ pb: 3 }}>
       <PageTemplate
-        title={`${translations[lang].discoverMovies} ${
-          isFetching ? "(updating…)" : ""
-        }`}
+        title={`${t.discoverMovies} ${isFetching ? "(updating…)" : ""}`}
         movies={displayedMovies}
         action={(movie: BaseMovieProps) => (
           <AddToFavouritesIcon movie={movie} />
