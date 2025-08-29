@@ -15,6 +15,9 @@ import img from "../../images/film-poster-placeholder.png";
 import { BaseMovieProps } from "../../types/interfaces";
 import { MoviesContext } from "../../contexts/moviesContext";
 
+import { useLanguage } from "../../contexts/languageContext";
+import translations from "../../i18n/translations";
+
 const styles = {
   card: {
     width: 250,
@@ -64,6 +67,8 @@ interface MovieCardProps {
 const MovieCard: React.FC<MovieCardProps> = ({ movie, action }) => {
   const { favourites } = useContext(MoviesContext);
   const isFavourite = favourites.includes(movie.id);
+  const { uiLang } = useLanguage();
+  const t = translations[uiLang];
 
   return (
     <Card sx={styles.card}>
@@ -94,10 +99,12 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie, action }) => {
       <CardContent sx={styles.content}>
         <div style={styles.infoRow}>
           <span>
-            <CalendarIcon fontSize="small" /> {movie.release_date}
+            <CalendarIcon fontSize="small" /> {t.releaseDate}:{" "}
+            {movie.release_date}
           </span>
           <span>
-            <StarRateIcon fontSize="small" />{" "}
+            <StarRateIcon fontSize="small" />
+            {t.rating}:{" "}
             {movie.vote_average ? movie.vote_average.toFixed(1) : "N/A"}
           </span>
         </div>
@@ -106,7 +113,7 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie, action }) => {
         {action(movie)}
         <Link to={`/movies/${movie.id}`}>
           <Button size="small" variant="contained">
-            More Info
+            {t.moreInfo}
           </Button>
         </Link>
       </CardActions>

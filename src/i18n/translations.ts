@@ -15,6 +15,7 @@ const translations = {
     mustWatchMovies: "Must Watch",
     actorList: "Actors",
     actorDetails: "Actor Details",
+    noResults: "No results found",
 
     // ---actor details ---
     biography: "Biography",
@@ -26,6 +27,10 @@ const translations = {
     homepage: "Homepage",
     noBiography: "No biography available.",
 
+    // --- movie card ---
+    releaseDate: "Release Date",
+    rating: "Rating",
+
     // --reviews ---
     reviews: "Reviews",
     addReview: "Add Review",
@@ -35,23 +40,28 @@ const translations = {
     ratingText: "Don't forget your rating",
     submitBtn: "Submit",
     resetBtn: "Reset",
-    thankYouReview: "Thank you for submitting a review",
+
+    movieReview: {
+      heading: "Movie Reviews",
+      noReviews: "No reviews found for this movie.",
+      loading: "Loading reviews...",
+      error: "Failed to fetch reviews.",
+    },
 
     // --- validation ---
-    nameRequired: "Name is required",
-    reviewRequired: "Review cannot be empty.",
+    validation: {
+      nameRequired: "Name is required",
+      reviewRequired: "Review cannot be empty.",
+    },
 
     // --- rating labels ---
-    ratingExcellent: "Excellent",
-    ratingGood: "Good",
-    ratingAverage: "Average",
-    ratingPoor: "Poor",
-    ratingTerrible: "Terrible",
-
-    // --- movieReview card ---
-    reviewBy: "Review by",
-    rating: "Rating",
-    noReviewText: "No review added yet.",
+    ratings: {
+      excellent: "Excellent",
+      good: "Good",
+      average: "Average",
+      poor: "Poor",
+      terrible: "Terrible",
+    },
 
     // ---updating message ---
     processUpdate: " (updating…)",
@@ -68,16 +78,18 @@ const translations = {
     header: "Aplicación de Películas",
     navDiscover: "Descubrir",
     navFavorites: "Favoritos",
-    navUpcoming: "Próximos",
-    navMustWatch: "Por ver",
+    navUpcoming: "Próximamente",
+    navMustWatch: "Debe ver",
     navActors: "Actores",
 
     // --- page titles ---
-    discoverMovies: "Descubrir",
-    favouriteMovies: "Favoritos",
-    upcomingMovies: "Próximos",
-    mustWatchMovies: "Por ver",
+    discoverMovies: "Descubrir de Películas",
+    favouriteMovies: "Favoritas",
+    upcomingMovies: "Próximamente",
+    mustWatchMovies: "Debe ver",
     actorList: "Actores",
+    actorDetails: "Detalles del Actor",
+    noResults: "No se encontraron resultados",
     popularActors: "Actores Populares",
 
     // --- actor details ---
@@ -90,34 +102,48 @@ const translations = {
     homepage: "Página web",
     noBiography: "No hay biografía disponible.",
 
+    releaseDate: "Fecha de estreno",
+    rating: "Calificación",
+
     // -- updating message --
     processUpdate: " (actualizando…)",
 
     // --- reviews ---
     reviews: "Reseñas",
-    addReview: "Añadir una reseña",
+    addReview: "Agregar Reseña",
     authorName: "Nombre del autor",
     reviewText: "Texto de la reseña",
-    ratingLabel: "Puntuación",
-    ratingText: "No olvides tu puntuación",
+    ratingLabel: "Calificación",
+    ratingText: "No olvides tu calificación",
     submitBtn: "Enviar",
     resetBtn: "Restablecer",
     thankYouReview: "Gracias por enviar una reseña",
 
+    movieReview: {
+      heading: "Reseñas de Películas",
+      noReviews: "No se encontraron reseñas para esta película.",
+      loading: "Cargando reseñas...",
+      error: "No se pudieron obtener las reseñas.",
+    },
+
     // --- validation ---
-    nameRequired: "El nombre es obligatorio",
-    reviewRequired: "La reseña no puede estar vacía.",
+    validation: {
+      nameRequired: "El nombre es obligatorio",
+      reviewRequired: "La reseña no puede estar vacía.",
+      reviewTooShort: "La reseña es demasiado corta",
+    },
 
     // --- rating labels ---
-    ratingExcellent: "Excelente",
-    ratingGood: "Buena",
-    ratingAverage: "Normal",
-    ratingPoor: "Mala",
-    ratingTerrible: "Terrible",
+    ratings: {
+      excellent: "Excelente",
+      good: "Bueno",
+      average: "Regular",
+      poor: "Malo",
+      terrible: "Terrible",
+    },
 
     // --- movieReview card ---
     reviewBy: "Reseña por",
-    rating: "Puntuación",
     noReviewText: "Aún no hay reseñas.",
 
     // --- empty states ---
@@ -142,7 +168,9 @@ const translations = {
     upcomingMovies: "À venir",
     mustWatchMovies: "À voir",
     actorList: "Acteurs",
+    actorDetails: "Détails de l'acteur",
     popularActors: "Acteurs Populaires",
+    noResults: "Aucun résultat trouvé",
 
     // --- actor details ---
     biography: "Biographie",
@@ -150,9 +178,12 @@ const translations = {
     moreInfo: " Information",
     birthday: "Date de naissance",
     placeOfBirth: "Lieu de naissance",
-    alsoKnownAs: "Aussi connu sous le nom",
+    alsoKnownAs: "Aussi connu comme",
     homepage: "Site web",
     noBiography: "Biographie non disponible.",
+
+    releaseDate: "Date de sortie",
+    rating: "Note",
 
     // --- updating message ---
     processUpdate: " (mise à jour…)",
@@ -164,25 +195,32 @@ const translations = {
     reviewText: "Texte de l’avis",
     ratingLabel: "Note",
     ratingText: "N’oubliez pas votre note",
-    submitBtn: "Envoyer",
-    resetBtn: "Réinitialiser",
+    submitBtn: "Soumettre",
+    resetBtn: "Réinitialise",
     thankYouReview: "Merci pour votre avis",
 
+    movieReview: {
+      heading: "Avis sur les Films",
+      noReviews: "Aucun avis trouvé pour ce film.",
+      loading: "Chargement des avis...",
+      error: "Échec du chargement des avis.",
+    },
+
     // --- validation ---
-    nameRequired: "Le nom est requis",
-    reviewRequired: "L’avis ne peut pas être vide.",
+    validation: {
+      nameRequired: "Le nom est requis",
+      reviewRequired: "L’avis ne peut pas être vide.",
+      reviewTooShort: "L'avis est trop court",
+    },
 
     // --- rating labels ---
-    ratingExcellent: "Excellent",
-    ratingGood: "Bon",
-    ratingAverage: "Moyen",
-    ratingPoor: "Mauvais",
-    ratingTerrible: "Très mauvais",
-
-    // --- movieReview card ---
-    reviewBy: "Rédigé par",
-    rating: "Note",
-    noReviewText: "Aucun avis pour le moment.",
+    ratings: {
+      excellent: "Excellent",
+      good: "Bon",
+      average: "Moyen",
+      poor: "Faible",
+      terrible: "Terrible",
+    },
 
     // --- empty states  ---
     noFavourites:
