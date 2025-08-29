@@ -27,8 +27,31 @@ const translations = {
     noBiography: "No biography available.",
 
     // --reviews ---
-    addReview: "Add Review",
     reviews: "Reviews",
+    addReview: "Add Review",
+    authorName: "Author's name",
+    reviewText: "Review text",
+    ratingLabel: "Rating",
+    ratingText: "Don't forget your rating",
+    submitBtn: "Submit",
+    resetBtn: "Reset",
+    thankYouReview: "Thank you for submitting a review",
+
+    // --- validation ---
+    nameRequired: "Name is required",
+    reviewRequired: "Review cannot be empty.",
+
+    // --- rating labels ---
+    ratingExcellent: "Excellent",
+    ratingGood: "Good",
+    ratingAverage: "Average",
+    ratingPoor: "Poor",
+    ratingTerrible: "Terrible",
+
+    // --- movieReview card ---
+    reviewBy: "Review by",
+    rating: "Rating",
+    noReviewText: "No review added yet.",
 
     // ---updating message ---
     processUpdate: " (updating…)",
@@ -71,8 +94,31 @@ const translations = {
     processUpdate: " (actualizando…)",
 
     // --- reviews ---
-    addReview: "Añadir reseña",
     reviews: "Reseñas",
+    addReview: "Añadir una reseña",
+    authorName: "Nombre del autor",
+    reviewText: "Texto de la reseña",
+    ratingLabel: "Puntuación",
+    ratingText: "No olvides tu puntuación",
+    submitBtn: "Enviar",
+    resetBtn: "Restablecer",
+    thankYouReview: "Gracias por enviar una reseña",
+
+    // --- validation ---
+    nameRequired: "El nombre es obligatorio",
+    reviewRequired: "La reseña no puede estar vacía.",
+
+    // --- rating labels ---
+    ratingExcellent: "Excelente",
+    ratingGood: "Buena",
+    ratingAverage: "Normal",
+    ratingPoor: "Mala",
+    ratingTerrible: "Terrible",
+
+    // --- movieReview card ---
+    reviewBy: "Reseña por",
+    rating: "Puntuación",
+    noReviewText: "Aún no hay reseñas.",
 
     // --- empty states ---
     noFavourites:
@@ -112,8 +158,31 @@ const translations = {
     processUpdate: " (mise à jour…)",
 
     // --- reviews ---
-    addReview: "Ajouter une critique",
-    reviews: "Critiques",
+    reviews: "Avis",
+    addReview: "Ajouter un avis",
+    authorName: "Nom de l’auteur",
+    reviewText: "Texte de l’avis",
+    ratingLabel: "Note",
+    ratingText: "N’oubliez pas votre note",
+    submitBtn: "Envoyer",
+    resetBtn: "Réinitialiser",
+    thankYouReview: "Merci pour votre avis",
+
+    // --- validation ---
+    nameRequired: "Le nom est requis",
+    reviewRequired: "L’avis ne peut pas être vide.",
+
+    // --- rating labels ---
+    ratingExcellent: "Excellent",
+    ratingGood: "Bon",
+    ratingAverage: "Moyen",
+    ratingPoor: "Mauvais",
+    ratingTerrible: "Très mauvais",
+
+    // --- movieReview card ---
+    reviewBy: "Rédigé par",
+    rating: "Note",
+    noReviewText: "Aucun avis pour le moment.",
 
     // --- empty states  ---
     noFavourites:
