@@ -18,18 +18,18 @@ import Stack from "@mui/material/Stack"; // Importing Stack component from Mater
 import { useUrlPage } from "../hooks/userUrlPage"; // Importing custom hook to manage page number in URL
 
 import { useLanguage } from "../contexts/languageContext";
+import translations from "../i18n/translations";
 
 const titleFiltering = { name: "title", value: "", condition: titleFilter }; // Defining the title filtering criteria
 const genreFiltering = { name: "genre", value: "0", condition: genreFilter }; // Defining the genre filtering criteria
 
 const UpcomingMoviesPage: React.FC = () => {
   const { page, setPage } = useUrlPage(); // Using custom hook to get and set the current page number from URL
-  const { language } = useLanguage();
+  const { language, uiLang } = useLanguage();
+  const lang = uiLang as keyof typeof translations;
+  const t = translations[lang];
   // Using react-query's useQuery hook to fetch upcoming movies data
-  const { data, isLoading, error, isFetching } = useQuery<
-    DiscoverMovies,
-    Error
-  >(
+  const { data, isLoading, isFetching } = useQuery<DiscoverMovies, Error>(
     ["upcomingMovies", page, language],
     () => getUpcomingMovies(page, language),
     {
@@ -44,7 +44,6 @@ const UpcomingMoviesPage: React.FC = () => {
   ]);
 
   if (isLoading && !data) return <Spinner />; // Displaying spinner while data is loading
-  if (error) return <div>Error loading upcoming movies.</div>; // Displaying error message if data fetching fails
 
   const movies = (data?.results ?? []).map((m: BaseMovieProps) => ({
     // Mapping the fetched movies to the required format
@@ -73,7 +72,7 @@ const UpcomingMoviesPage: React.FC = () => {
       />
 
       <PageTemplate
-        title={`Upcoming Movies ${isFetching ? "(updating…)" : ""}`}
+        title={`${t.upcomingMovies} ${isFetching ? t.processUpdate : ""}`}
         movies={displayedMovies}
         action={(movie: BaseMovieProps) => <AddToMustWatchIcon movie={movie} />}
       />

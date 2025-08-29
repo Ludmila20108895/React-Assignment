@@ -100,7 +100,7 @@ const MustWatchMoviesPage: React.FC = () => {
   return (
     <Container maxWidth="lg" sx={{ py: 3 }}>
       <PageTemplate
-        title="Must Watch Movies"
+        title={t.mustWatchMovies}
         movies={displayedMovies}
         action={action}
       />

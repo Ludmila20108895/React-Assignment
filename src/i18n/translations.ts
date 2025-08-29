@@ -30,6 +30,9 @@ const translations = {
     addReview: "Add Review",
     reviews: "Reviews",
 
+    // ---updating message ---
+    processUpdate: " (updating…)",
+
     // --- empty states
     noFavourites:
       "You have no favourite movies yet. Go to the Home page and add some.",
@@ -63,6 +66,9 @@ const translations = {
     alsoKnownAs: "También conocido como",
     homepage: "Página web",
     noBiography: "No hay biografía disponible.",
+
+    // -- updating message --
+    processUpdate: " (actualizando…)",
 
     // --- reviews ---
     addReview: "Añadir reseña",
@@ -101,6 +107,9 @@ const translations = {
     alsoKnownAs: "Aussi connu sous le nom",
     homepage: "Site web",
     noBiography: "Biographie non disponible.",
+
+    // --- updating message ---
+    processUpdate: " (mise à jour…)",
 
     // --- reviews ---
     addReview: "Ajouter une critique",
