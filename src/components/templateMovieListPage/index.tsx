@@ -7,6 +7,7 @@ import { MovieListPageTemplateProps } from "../../types/interfaces";
 const styles = {
   root: {
     backgroundColor: "#bfbfbf",
+    paddingBottom: "32px",
   },
 };
 
@@ -16,11 +17,11 @@ const MovieListPageTemplate: React.FC<MovieListPageTemplateProps> = ({
   action,
 }) => {
   return (
-    <Grid container sx={styles.root}>
+    <Grid container sx={styles.root} spacing={5}>
       <Grid item xs={12}>
         <Header title={title} />
       </Grid>
-      <Grid item container spacing={5}>
+      <Grid item xs={12}>
         <MovieList action={action} movies={movies}></MovieList>
       </Grid>
     </Grid>

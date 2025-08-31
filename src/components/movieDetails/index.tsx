@@ -11,6 +11,10 @@ import Fab from "@mui/material/Fab";
 import Drawer from "@mui/material/Drawer";
 import MovieReview from "../movieReviews";
 
+//--- i18n/translations ----
+import { useLanguage } from "../../contexts/languageContext";
+import translations from "../../i18n/translations";
+
 const styles = {
   chipSet: {
     display: "flex",
@@ -32,12 +36,14 @@ const styles = {
 };
 
 const MovieDetails: React.FC<MovieDetailsProps> = (movie) => {
-  const [drawerOpen, setDrawerOpen] = useState(false); // New
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const { uiLang } = useLanguage();
+  const t = translations[uiLang];
 
   return (
     <>
       <Typography variant="h5" component="h3">
-        Overview
+        {t.movieDetails.overview}
       </Typography>
 
       <Typography variant="h6" component="p">
@@ -46,25 +52,40 @@ const MovieDetails: React.FC<MovieDetailsProps> = (movie) => {
 
       <Paper component="ul" sx={styles.chipSet}>
         <li>
-          <Chip label="Genres" sx={styles.chipLabel} color="primary" />
+          <Chip
+            label={t.movieDetails.genres}
+            sx={styles.chipLabel}
+            color="primary"
+          />
         </li>
         {movie.genres.map((g) => (
           <li key={g.name}>
-            <Chip label={g.name} />
+            <Chip label={t.genres[g.name as keyof typeof t.genres] || g.name} />
           </li>
         ))}
       </Paper>
       <Paper component="ul" sx={styles.chipSet}>
-        <Chip icon={<AccessTimeIcon />} label={`${movie.runtime} min.`} />
+        <Chip
+          icon={<AccessTimeIcon />}
+          label={`${t.movieDetails.runtime}: ${movie.runtime} ${t.movieDetails.minutes}`}
+          sx={styles.chipLabel}
+        />
         <Chip
           icon={<MonetizationIcon />}
-          label={`${movie.revenue.toLocaleString()}`}
+          label={`${t.movieDetails.revenue}: $${(
+            movie.revenue ?? 0
+          ).toLocaleString()}`}
+          sx={styles.chipLabel}
         />
         <Chip
           icon={<StarRate />}
-          label={`${movie.vote_average} (${movie.vote_count}`}
+          label={`${movie.vote_average} (${movie.vote_count} ${t.movieDetails.votes})`}
+          sx={styles.chipLabel}
         />
-        <Chip label={`Released: ${movie.release_date}`} />
+        <Chip
+          label={`${t.movieDetails.releaseDate}: ${movie.release_date}`}
+          sx={styles.chipLabel}
+        />
       </Paper>
       <Fab
         color="secondary"
@@ -73,7 +94,7 @@ const MovieDetails: React.FC<MovieDetailsProps> = (movie) => {
         sx={styles.fab}
       >
         <NavigationIcon />
-        Reviews
+        {t.movieDetails.reviewsBtn}
       </Fab>
       <Drawer
         anchor="top"

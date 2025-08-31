@@ -9,6 +9,8 @@ import Typography from "@mui/material/Typography";
 import img from "../../images/film-poster-placeholder.png";
 import { Actor } from "../../types/interfaces";
 import { Link } from "react-router-dom";
+import { useLanguage } from "../../contexts/languageContext";
+import translations from "../../i18n/translations";
 
 const styles = {
   card: {
@@ -39,6 +41,8 @@ const profileBase = `https://image.tmdb.org/t/p/${profileSize}`;
 const ActorCard: React.FC<ActorCardProps> = ({ actor }) => {
   const knownForNames =
     actor.known_for?.map((k) => k.title || k.name).filter(Boolean) ?? [];
+  const { uiLang } = useLanguage();
+  const t = translations[uiLang];
 
   return (
     <Card sx={styles.card}>
@@ -57,7 +61,7 @@ const ActorCard: React.FC<ActorCardProps> = ({ actor }) => {
       />
       <CardContent sx={styles.content}>
         <Typography variant="body2" color="text.secondary">
-          Known for:{" "}
+          {t.alsoKnownAs}:{" "}
           {knownForNames.length ? knownForNames.slice(0, 3).join(", ") : "—"}
         </Typography>
       </CardContent>
@@ -67,7 +71,7 @@ const ActorCard: React.FC<ActorCardProps> = ({ actor }) => {
         <span />
         <Link to={`/actors/${actor.id}`}>
           <Button size="small" variant="contained">
-            More Info
+            {t.moreInfo}
           </Button>
         </Link>
       </CardActions>

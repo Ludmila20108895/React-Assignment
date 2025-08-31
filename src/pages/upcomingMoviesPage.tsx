@@ -1,5 +1,6 @@
 import React from "react"; // Importing React for component creation
-import PageTemplate from "../components/templateMovieListPage"; // Importing the template for the movie list page
+import ListPageLayout from "../components/layout/ListPageLayout"; // Importing the template for the movie list page
+
 import { BaseMovieProps, DiscoverMovies } from "../types/interfaces"; // Importing the interface for movie properties
 import { getUpcomingMovies } from "../api/tmdb-api"; // Importing the API function to fetch upcoming movies
 import { useQuery } from "react-query"; // Importing useQuery from react-query for data fetching
@@ -19,6 +20,8 @@ import { useUrlPage } from "../hooks/userUrlPage"; // Importing custom hook to m
 
 import { useLanguage } from "../contexts/languageContext";
 import translations from "../i18n/translations";
+import MovieList from "../components/movieList";
+import HeaderMovieList from "../components/headerMovieList";
 
 const titleFiltering = { name: "title", value: "", condition: titleFilter }; // Defining the title filtering criteria
 const genreFiltering = { name: "genre", value: "0", condition: genreFilter }; // Defining the genre filtering criteria
@@ -71,11 +74,18 @@ const UpcomingMoviesPage: React.FC = () => {
         genreFilter={filterValues[1].value}
       />
 
-      <PageTemplate
-        title={`${t.upcomingMovies} ${isFetching ? t.processUpdate : ""}`}
-        movies={displayedMovies}
-        action={(movie: BaseMovieProps) => <AddToMustWatchIcon movie={movie} />}
-      />
+      <ListPageLayout>
+        <HeaderMovieList
+          title={`${t.upcomingMovies} ${isFetching ? t.processUpdate : ""}`}
+        />
+
+        <MovieList
+          movies={displayedMovies}
+          action={(movie: BaseMovieProps) => (
+            <AddToMustWatchIcon movie={movie} />
+          )}
+        />
+      </ListPageLayout>
 
       {totalPages > 1 && (
         <Stack direction="row" justifyContent="center" sx={{ mt: 2 }}>

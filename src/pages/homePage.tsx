@@ -2,8 +2,10 @@
 import React from "react";
 import { useQuery } from "react-query"; // useQuery is the primary hook for fetching data
 import Spinner from "../components/spinner"; // loading component
-import PageTemplate from "../components/templateMovieListPage"; // page layout component
+import ListPageLayout from "../components/layout/ListPageLayout";
 import { getMovies } from "../api/tmdb-api"; // function to fetch movies
+import HeaderMovieList from "../components/headerMovieList";
+import MovieList from "../components/movieList";
 import useFiltering from "../hooks/useFiltering"; // custom hook for filtering
 import MovieFilterUI, {
   titleFilter,
@@ -71,32 +73,36 @@ const HomePage: React.FC = () => {
   // the function is passed to MovieFilterUI and called when the user changes a filter
   return (
     <Container maxWidth="lg" sx={{ pb: 3 }}>
-      <PageTemplate
-        title={`${t.discoverMovies} ${isFetching ? "(updating…)" : ""}`}
-        movies={displayedMovies}
-        action={(movie: BaseMovieProps) => (
-          <AddToFavouritesIcon movie={movie} />
+      <ListPageLayout>
+        <HeaderMovieList
+          title={`${t.discoverMovies} ${isFetching ? "(updating…)" : ""}`}
+        />
+        <MovieList
+          movies={displayedMovies}
+          action={(movie: BaseMovieProps) => (
+            <AddToFavouritesIcon movie={movie} />
+          )}
+        />
+
+        <MovieFilterUI
+          onFilterValuesChange={changeFilterValues} // callback when filter values change
+          titleFilter={filterValues[0].value}
+          genreFilter={filterValues[1].value}
+        />
+
+        {totalPages > 1 && (
+          <Stack direction="row" justifyContent="center" sx={{ mt: 2 }}>
+            <Pagination
+              count={totalPages}
+              page={page}
+              onChange={(_, p) => setPage(p)}
+              siblingCount={1}
+              boundaryCount={1}
+              shape="rounded"
+            />
+          </Stack>
         )}
-      />
-
-      <MovieFilterUI
-        onFilterValuesChange={changeFilterValues} // callback when filter values change
-        titleFilter={filterValues[0].value}
-        genreFilter={filterValues[1].value}
-      />
-
-      {totalPages > 1 && (
-        <Stack direction="row" justifyContent="center" sx={{ mt: 2 }}>
-          <Pagination
-            count={totalPages}
-            page={page}
-            onChange={(_, p) => setPage(p)}
-            siblingCount={1}
-            boundaryCount={1}
-            shape="rounded"
-          />
-        </Stack>
-      )}
+      </ListPageLayout>
     </Container>
   );
 };

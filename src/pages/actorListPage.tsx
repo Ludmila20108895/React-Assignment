@@ -1,7 +1,7 @@
 import React from "react";
 import { useQuery } from "react-query";
 import Spinner from "../components/spinner";
-import ActorListPageTemplate from "../components/templateActorListPage";
+import ListPageLayout from "../components/layout/ListPageLayout";
 import { DiscoverActors } from "../types/interfaces";
 import { getPopularActors } from "../api/tmdb-api";
 import Pagination from "@mui/material/Pagination"; // MUI Pagination component
@@ -10,6 +10,8 @@ import Container from "@mui/material/Container"; // MUI Container component for 
 import { useUrlPage } from "../hooks/userUrlPage"; // Custom hook to manage pagination via URL
 import { useLanguage } from "../contexts/languageContext";
 import translations from "../i18n/translations";
+import HeaderMovieList from "../components/headerMovieList";
+import ActorList from "../components/actorList";
 
 // This page displays a list of popular actors using the ActorListPageTemplate component
 // It fetches the data using react-query and handles loading and error states
@@ -36,22 +38,25 @@ const ActorListPage: React.FC = () => {
 
   return (
     <Container maxWidth="lg" sx={{ pb: 3 }}>
-      <ActorListPageTemplate
-        title={`${t.actorList} ${isFetching ? "(updating…)" : ""}`}
-        actors={actors}
-      />
-      {totalPages > 1 && (
-        <Stack direction="row" justifyContent="center" sx={{ mt: 2 }}>
-          <Pagination // MUI Pagination component
-            count={totalPages} // Total number of pages
-            page={page} // Current page number
-            onChange={(_, p) => setPage(p)} // Update page number on change
-            siblingCount={1}
-            boundaryCount={1}
-            shape="rounded"
-          />
-        </Stack>
-      )}
+      <ListPageLayout>
+        <HeaderMovieList
+          title={`${t.actorList} ${isFetching ? "(updating…)" : ""}`}
+        />
+        <ActorList actors={actors} />
+
+        {totalPages > 1 && (
+          <Stack direction="row" justifyContent="center" sx={{ mt: 2 }}>
+            <Pagination // MUI Pagination component
+              count={totalPages} // Total number of pages
+              page={page} // Current page number
+              onChange={(_, p) => setPage(p)} // Update page number on change
+              siblingCount={1}
+              boundaryCount={1}
+              shape="rounded"
+            />
+          </Stack>
+        )}
+      </ListPageLayout>
     </Container>
   );
 };

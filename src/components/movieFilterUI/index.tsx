@@ -4,6 +4,8 @@ import FilterCard from "../filterMoviesCard";
 import Fab from "@mui/material/Fab";
 import Drawer from "@mui/material/Drawer";
 import { BaseMovieProps } from "../../types/interfaces";
+import { useLanguage } from "../../contexts/languageContext";
+import translations from "../../i18n/translations";
 
 export const titleFilter = (movie: BaseMovieProps, value: string): boolean => {
   return movie.title.toLowerCase().search(value.toLowerCase()) !== -1;
@@ -28,7 +30,7 @@ const styles = {
 };
 
 interface MovieFilterUIProps {
-  onFilterValuesChange: (f: string, s: string) => void;
+  onFilterValuesChange: (f: "title" | "genre", v: string) => void;
   titleFilter: string;
   genreFilter: string;
 }
@@ -39,6 +41,8 @@ const MovieFilterUI: React.FC<MovieFilterUIProps> = ({
   genreFilter,
 }) => {
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const { uiLang } = useLanguage();
+  const t = translations[uiLang];
 
   return (
     <>
@@ -48,7 +52,7 @@ const MovieFilterUI: React.FC<MovieFilterUIProps> = ({
         onClick={() => setDrawerOpen(true)}
         sx={styles.fab}
       >
-        Filter
+        {t.filterUI.openBtn}
       </Fab>
       <Drawer
         anchor="left"

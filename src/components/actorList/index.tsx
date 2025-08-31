@@ -11,13 +11,13 @@ interface ActorListProps {
 // It accepts an array of Actor objects as props and maps over them to create a grid of actor cards
 const ActorList: React.FC<ActorListProps> = ({ actors }) => {
   return (
-    <>
+    <Grid container spacing={2}>
       {actors.map((a) => (
         <Grid key={a.id} item xs={12} sm={6} md={4} lg={3}>
           <ActorCard actor={a} />
         </Grid>
       ))}
-    </>
+    </Grid>
   );
 };
 

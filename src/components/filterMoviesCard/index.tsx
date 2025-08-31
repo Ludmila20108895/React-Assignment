@@ -16,6 +16,9 @@ import { getGenres } from "../../api/tmdb-api";
 import { useQuery } from "react-query";
 import Spinner from "../spinner";
 
+import { useLanguage } from "../../contexts/languageContext";
+// eslint-disable-next-line react-hooks/rules-of-hooks
+
 const styles = {
   root: {
     maxWidth: 345,
@@ -41,10 +44,12 @@ const FilterMoviesCard: React.FC<FilterMoviesCardProps> = ({
   genreFilter,
   onUserInput,
 }) => {
-  const { data, error, isLoading, isError } = useQuery<GenreData, Error>(
-    "genres",
-    getGenres
-  );
+  const { language } = useLanguage();
+
+  const { data, error, isLoading, isError } = useQuery<GenreData, Error>({
+    queryKey: ["genres", language],
+    queryFn: () => getGenres(language),
+  });
 
   if (isLoading) {
     return <Spinner />;
@@ -54,7 +59,7 @@ const FilterMoviesCard: React.FC<FilterMoviesCardProps> = ({
   }
   const genres = data?.genres || [];
   if (genres[0].name !== "All") {
-    genres.unshift({ id: "0", name: "All" });
+    genres.unshift({ id: 0, name: "All" });
   }
 
   const handleChange = (
