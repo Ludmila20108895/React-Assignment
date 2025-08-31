@@ -1,13 +1,22 @@
 import React from "react";
-import PageTemplate from "../components/templateMoviePage";
 import ReviewForm from "../components/reviewForm";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useQuery } from "react-query";
 import { getMovie } from "../api/tmdb-api";
 import Spinner from "../components/spinner";
 import { MovieDetailsProps } from "../types/interfaces";
 import { useLanguage } from "../contexts/languageContext";
 import translations from "../i18n/translations";
+import Container from "@mui/material/Container";
+import Grid from "@mui/material/Grid";
+import Card from "@mui/material/Card";
+import CardMedia from "@mui/material/CardMedia";
+import CardContent from "@mui/material/CardContent";
+import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
+import fallbackPoster from "../images/film-poster-placeholder.png";
+
+const posterBase = "https://image.tmdb.org/t/p/w342";
 
 const WriteReviewPage: React.FC = () => {
   const location = useLocation();
@@ -15,32 +24,66 @@ const WriteReviewPage: React.FC = () => {
   const { language, uiLang } = useLanguage();
   const lang = uiLang as keyof typeof translations;
   const t = translations[lang];
-  const {
-    data: movie,
-    error,
-    isLoading,
-    isError,
-  } = useQuery<MovieDetailsProps, Error>(["movie", movieId, language], () =>
-    getMovie(movieId, language)
-  );
+  const { data, error, isLoading, isError } = useQuery<
+    MovieDetailsProps,
+    Error
+  >(["movie", movieId, language], () => getMovie(movieId, language));
+  const movie = data!;
 
   if (isLoading) {
     return <Spinner />;
   }
 
   if (isError) {
-    return <h1>{error.message}</h1>;
+    return <h1 style={{ padding: 16 }}>{error.message}</h1>;
   }
   return (
-    <>
-      {movie ? (
-        <PageTemplate movie={movie}>
-          <ReviewForm {...movie} />
-        </PageTemplate>
-      ) : (
-        <p>{t.waitingMovieDetails}</p>
-      )}
-    </>
+    <Container maxWidth="lg" sx={{ py: 3 }}>
+      <Button component={Link} to="/" variant="outlined" sx={{ mb: 2 }}>
+        ← {t.backToMovies}
+      </Button>
+
+      <Grid container spacing={3}>
+        <Grid item xs={12} md={4}>
+          <Card>
+            <CardMedia
+              component="img"
+              image={
+                movie.poster_path
+                  ? `${posterBase}${movie.poster_path}`
+                  : fallbackPoster
+              }
+              alt={movie.title}
+            />
+            <CardContent>
+              <Typography variant="h6" gutterBottom>
+                {movie.title ?? "Untitled"}
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                {t.movieDetails.releaseDate}: {movie.release_date ?? "N/A"}
+              </Typography>
+              {Array.isArray(movie.genres) && movie.genres.length > 0 ? (
+                <Typography variant="body2" color="text.secondary">
+                  {t.movieDetails.genres}:{" "}
+                  {movie.genres.map((g) => g.name).join(", ")}
+                </Typography>
+              ) : (
+                <Typography variant="body2" color="text.secondary">
+                  {t.movieDetails.genres}
+                </Typography>
+              )}
+            </CardContent>
+          </Card>
+        </Grid>
+
+        <Grid item xs={12} md={8}>
+          <Typography variant="h6" gutterBottom>
+            {t.writeReview ?? "Write a review"}
+          </Typography>
+          <ReviewForm id={movie.id} title={movie.title} genres={movie.genres} />
+        </Grid>
+      </Grid>
+    </Container>
   );
 };
 

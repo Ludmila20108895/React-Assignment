@@ -56,7 +56,7 @@ export interface DiscoverMovies {
   results: BaseMovieProps[];
 }
 
-// Filtering UI types
+// filter option shared by filterUI
 export type FilterOption = "title" | "genre";
 
 export interface MovieListPageTemplateProps extends BaseMovieListProps {
@@ -110,4 +110,13 @@ export interface ActorDetails extends Actor {
   also_known_as: string[];
   imdb_id: string | null;
   gender: number | null;
+}
+// --- genres (TMDB /genre/movie/list)
+export interface Genre {
+  id: number;
+  name: string;
+}
+
+export interface GenreData {
+  genres: Genre[];
 }

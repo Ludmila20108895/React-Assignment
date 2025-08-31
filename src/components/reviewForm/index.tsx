@@ -9,19 +9,25 @@ import { MoviesContext } from "../../contexts/moviesContext";
 import { useNavigate } from "react-router-dom";
 import styles from "./styles";
 import ratings from "./ratingCategories";
-import { BaseMovieProps, Review } from "../../types/interfaces";
+import { UserReview, MovieDetailsProps } from "../../types/interfaces";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
+import { useLanguage } from "../../contexts/languageContext";
+import translations from "../../i18n/translations";
 
-const ReviewForm: React.FC<BaseMovieProps> = (movie) => {
-  const defaultValues = {
-    defaultValues: {
-      author: "",
-      review: "",
-      agree: false,
-      rating: 3,
-      movieId: 0,
-    },
+type ReviewFormProps = Pick<MovieDetailsProps, "id" | "title" | "genres">;
+
+const ReviewForm: React.FC<ReviewFormProps> = ({ id, title, genres }) => {
+  const { uiLang } = useLanguage();
+  const lang = uiLang as keyof typeof translations;
+  const t = translations[lang];
+
+  const defaultValues: UserReview = {
+    author: "",
+    content: "",
+    agree: false,
+    rating: 3,
+    movieId: id,
   };
 
   const {
@@ -29,26 +35,40 @@ const ReviewForm: React.FC<BaseMovieProps> = (movie) => {
     formState: { errors },
     handleSubmit,
     reset,
-  } = useForm<Review>(defaultValues);
+  } = useForm<UserReview>({ defaultValues });
 
   const navigate = useNavigate();
   const context = useContext(MoviesContext);
   const [rating, setRating] = useState(3);
+  const [open, setOpen] = useState(false);
 
   const handleRatingChange = (event: ChangeEvent<HTMLInputElement>) => {
     setRating(Number(event.target.value));
   };
-  const [open, setOpen] = useState(false);
+
   const handleSnackClose = () => {
     setOpen(false);
     navigate("/movies/favourites");
   };
 
-  const onSubmit: SubmitHandler<Review> = (review) => {
-    review.movieId = movie.id;
+  const onSubmit: SubmitHandler<UserReview> = (review) => {
+    review.movieId = id;
     review.rating = rating;
-    context.addReview(movie, review);
+    context.addReview(
+      {
+        id,
+        title: title,
+        overview: "",
+        release_date: "",
+        vote_average: 0,
+        popularity: 0,
+        genre_ids: genres?.map((g) => g.id) || [],
+        poster_path: undefined,
+      },
+      review
+    );
     setOpen(true);
+    reset(defaultValues);
     // Reset the form after submission
     // reset the form fields
   };
@@ -56,7 +76,7 @@ const ReviewForm: React.FC<BaseMovieProps> = (movie) => {
   return (
     <Box component="div" sx={styles.root}>
       <Typography component="h2" variant="h3">
-        Write a review
+        {t.reviewForm.title}
       </Typography>
       <Snackbar
         sx={styles.snack}
@@ -65,9 +85,7 @@ const ReviewForm: React.FC<BaseMovieProps> = (movie) => {
         onClose={handleSnackClose}
       >
         <Alert severity="success" variant="filled" onClose={handleSnackClose}>
-          <Typography variant="h4">
-            Thank you for submitting a review
-          </Typography>
+          <Typography variant="h4">{t.reviewForm.successMessage}</Typography>
         </Alert>
       </Snackbar>
 
@@ -75,18 +93,15 @@ const ReviewForm: React.FC<BaseMovieProps> = (movie) => {
         <Controller
           name="author"
           control={control}
-          rules={{ required: "Name is required" }}
-          defaultValue=""
-          render={({ field: { onChange, value } }) => (
+          rules={{ required: t.validation.nameRequired }}
+          render={({ field }) => (
             <TextField
               sx={{ width: "40ch" }}
               variant="outlined"
               margin="normal"
               required
-              onChange={onChange}
-              value={value}
-              id="author"
-              label="Author's name"
+              {...field}
+              label={t.reviewForm.reviewTitle}
               autoFocus
             />
           )}
@@ -100,20 +115,17 @@ const ReviewForm: React.FC<BaseMovieProps> = (movie) => {
           name="content"
           control={control}
           rules={{
-            required: "Review cannot be empty.",
-            minLength: { value: 10, message: "Review is too short" },
+            required: t.validation.reviewRequired,
+            minLength: { value: 10, message: t.validation.reviewTooShort },
           }}
-          defaultValue=""
-          render={({ field: { onChange, value } }) => (
+          render={({ field }) => (
             <TextField
               variant="outlined"
               margin="normal"
               required
               fullWidth
-              value={value}
-              onChange={onChange}
-              label="Review text"
-              id="review"
+              {...field}
+              label={t.reviewForm.reviewText}
               multiline
               minRows={10}
             />
@@ -125,28 +137,25 @@ const ReviewForm: React.FC<BaseMovieProps> = (movie) => {
           </Typography>
         )}
 
-        <Controller
-          control={control}
-          name="rating"
-          render={({ field }) => (
-            <TextField
-              {...field}
-              id="select-rating"
-              select
-              variant="outlined"
-              label="Rating Select"
-              value={rating}
-              onChange={handleRatingChange}
-              helperText="Don't forget your rating"
-            >
-              {ratings.map((option) => (
-                <MenuItem key={option.value} value={option.value}>
-                  {option.label}
-                </MenuItem>
-              ))}
-            </TextField>
-          )}
-        />
+        {/* Rating */}
+        <TextField
+          id="select-rating"
+          select
+          variant="outlined"
+          label={t.reviewForm.rating}
+          value={rating}
+          onChange={handleRatingChange}
+          helperText={t.reviewForm.validation.ratingRequired}
+        >
+          {ratings.map((option) => (
+            <MenuItem key={option.value} value={option.value}>
+              {t.ratings[option.label as keyof typeof t.ratings] ||
+                option.label}
+            </MenuItem>
+          ))}
+        </TextField>
+
+        {/* Buttons */}
 
         <Box>
           <Button
@@ -155,21 +164,7 @@ const ReviewForm: React.FC<BaseMovieProps> = (movie) => {
             color="primary"
             sx={styles.submit}
           >
-            Submit
-          </Button>
-          <Button
-            type="reset"
-            variant="contained"
-            color="secondary"
-            sx={styles.submit}
-            onClick={() => {
-              reset({
-                author: "",
-                content: "",
-              });
-            }}
-          >
-            Reset
+            {t.reviewForm.submit}
           </Button>
         </Box>
       </form>
