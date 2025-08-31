@@ -1,8 +1,9 @@
 import React, { useContext } from "react";
 import Container from "@mui/material/Container";
 import { useQueries } from "react-query";
-
-import PageTemplate from "../components/templateMovieListPage";
+import ListPageLayout from "../components/layout/ListPageLayout";
+import HeaderMovieList from "../components/headerMovieList";
+import MovieList from "../components/movieList";
 import { MoviesContext } from "../contexts/moviesContext";
 import { getMovie } from "../api/tmdb-api";
 import Spinner from "../components/spinner";
@@ -34,7 +35,8 @@ const genreFiltering = {
 
 // Main component for the Must Watch Movies page
 const MustWatchMoviesPage: React.FC = () => {
-  const { mustWatch: movieIds } = useContext(MoviesContext); // Accessing must-watch movie IDs from context
+  const { mustWatch } = useContext(MoviesContext); // Accessing must-watch movie IDs from context
+  const movieIds = mustWatch ?? [];
   const { language, uiLang } = useLanguage();
   const lang = uiLang as keyof typeof translations;
   const t = translations[lang];
@@ -45,26 +47,13 @@ const MustWatchMoviesPage: React.FC = () => {
     genreFiltering,
   ]);
 
-  // If there are no must-watch movies, display a message
-  if (!movieIds || movieIds.length === 0) {
-    return (
-      <Container maxWidth="lg" sx={{ py: 3 }}>
-        <PageTemplate
-          title={t.mustWatchMovies}
-          movies={[]}
-          action={() => null}
-        />
-        <div style={{ padding: 16, textAlign: "center" }}>{t.noMustWatch}</div>
-      </Container>
-    );
-  }
-
   // Fetching movie data for each must-watch movie ID using useQueries hook
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const queries = useQueries(
     movieIds.map((movieId) => ({
       queryKey: ["movie", String(movieId), language], // Unique key for each movie query
       queryFn: () => getMovie(String(movieId), language), // Fetching movie details
+      enabled: Boolean(movieId),
     }))
   );
 
@@ -79,6 +68,17 @@ const MustWatchMoviesPage: React.FC = () => {
 
   // Applying filters to the list of movies
   const displayedMovies = filterFunction(movies);
+  if (movieIds.length === 0 || displayedMovies.length === 0) {
+    return (
+      <Container maxWidth="lg" sx={{ py: 3 }}>
+        <ListPageLayout>
+          <HeaderMovieList title={t.mustWatchMovies} />
+          <MovieList movies={[]} action={() => null} />
+        </ListPageLayout>
+        <div style={{ padding: 16, textAlign: "center" }}>{t.noMustWatch}</div>
+      </Container>
+    );
+  }
 
   // Function to handle changes in filter values
   const changeFilterValues = (type: string, value: string) => {
@@ -99,11 +99,10 @@ const MustWatchMoviesPage: React.FC = () => {
 
   return (
     <Container maxWidth="lg" sx={{ py: 3 }}>
-      <PageTemplate
-        title={t.mustWatchMovies}
-        movies={displayedMovies}
-        action={action}
-      />
+      <ListPageLayout>
+        <HeaderMovieList title={t.mustWatchMovies} />
+        <MovieList movies={displayedMovies} action={action} />
+      </ListPageLayout>
       <MovieFilterUI
         onFilterValuesChange={changeFilterValues}
         titleFilter={filterValues[0].value}

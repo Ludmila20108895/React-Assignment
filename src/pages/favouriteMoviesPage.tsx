@@ -4,7 +4,9 @@ import Spinner from "../components/spinner"; // loading component
 
 import Container from "@mui/material/Container"; // to center the page
 import WriteReviewIcon from "../components/cardIcons/writeReview"; // icon component to write a review
-import PageTemplate from "../components/templateMovieListPage"; // page layout component
+import ListPageLayout from "../components/layout/ListPageLayout";
+import HeaderMovieList from "../components/headerMovieList";
+import MovieList from "../components/movieList"; // page layout component
 import { MoviesContext } from "../contexts/moviesContext"; // to access the movies context
 import { getMovie } from "../api/tmdb-api"; // function to fetch movie details
 
@@ -32,7 +34,8 @@ const genreFiltering = {
 };
 
 const FavouriteMoviesPage: React.FC = () => {
-  const { favourites: movieIds } = useContext(MoviesContext);
+  const { favourites } = useContext(MoviesContext);
+  const movieIds = favourites ?? [];
   const { language, uiLang } = useLanguage();
   const lang = uiLang as keyof typeof translations;
   const t = translations[lang];
@@ -42,26 +45,13 @@ const FavouriteMoviesPage: React.FC = () => {
     genreFiltering,
   ]);
 
-  // If there are no favourite movies, display a message
-  if (!movieIds || movieIds.length === 0) {
-    return (
-      <Container maxWidth="lg" sx={{ py: 3 }}>
-        <PageTemplate
-          title={t.favouriteMovies}
-          movies={[]}
-          action={() => null}
-        />
-        <div style={{ padding: 16, textAlign: "center" }}>{t.noFavourites}</div>
-      </Container>
-    );
-  }
-
   // Create an array of queries and run them in parallel.
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const favouriteMovieQueries = useQueries(
     movieIds.map((movieId) => ({
       queryKey: ["movie", String(movieId), language],
       queryFn: () => getMovie(String(movieId), language),
+      enabled: Boolean(movieId),
     }))
   );
 
@@ -75,8 +65,21 @@ const FavouriteMoviesPage: React.FC = () => {
     .filter((q) => q.isSuccess && q.data)
     .map((q) => q.data as MovieDetailsProps);
 
-  // Apply title/genre filtering to the list of favourite movies.
+  // Function to Apply title/genre filtering to the list of favourite movies.
   const displayedMovies = filterFunction(movies);
+
+  // back to the same state when the movies are removed
+  if (displayedMovies.length === 0) {
+    return (
+      <Container maxWidth="lg" sx={{ py: 3 }}>
+        <ListPageLayout>
+          <HeaderMovieList title={t.favouriteMovies} />
+          <MovieList movies={[]} action={() => null} />
+        </ListPageLayout>
+        <div style={{ padding: 16, textAlign: "center" }}>{t.noFavourites}</div>
+      </Container>
+    );
+  }
 
   // Function to handle changes in filter values.
   const changeFilterValues = (type: string, value: string) => {
@@ -99,11 +102,10 @@ const FavouriteMoviesPage: React.FC = () => {
 
   return (
     <Container maxWidth="lg" sx={{ py: 3 }}>
-      <PageTemplate
-        title={t.favouriteMovies}
-        movies={displayedMovies}
-        action={action}
-      />
+      <ListPageLayout>
+        <HeaderMovieList title={t.favouriteMovies} />
+        <MovieList movies={displayedMovies} action={action} />
+      </ListPageLayout>
       <MovieFilterUI
         onFilterValuesChange={changeFilterValues}
         titleFilter={filterValues[0].value}
