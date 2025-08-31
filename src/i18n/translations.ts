@@ -27,31 +27,96 @@ const translations = {
     homepage: "Homepage",
     noBiography: "No biography available.",
 
-    // --- movie card ---
-    releaseDate: "Release Date",
-    rating: "Rating",
+    // --- for component movieDetails ---
+    movieDetails: {
+      overview: "Overview",
+      genres: "Genres",
+      runtime: "Runtime",
+      minutes: "min",
+      revenue: "Revenue",
+      releaseDate: "Release Date",
+      votes: "votes",
+      reviewsBtn: "Reviews",
+    },
+
+    // --- filter UI ---
+    filterUI: {
+      title: "Filter the movies.",
+      openBtn: "Filter",
+      search: "Search",
+      genreLabel: "Genre",
+      sortTitle: "Sort the movies.",
+    },
+
+    // --- genres dictionary (used in filters) ---
+    genres: {
+      all: "All",
+      Action: "Action",
+      Adventure: "Adventure",
+      Animation: "Animation",
+      Comedy: "Comedy",
+      Crime: "Crime",
+      Documentary: "Documentary",
+      Drama: "Drama",
+      Family: "Family",
+      Fantasy: "Fantasy",
+      History: "History",
+      Horror: "Horror",
+      Music: "Music",
+      Mystery: "Mystery",
+      Romance: "Romance",
+      ScienceFiction: "Science Fiction",
+      "TV Movie": "TV Movie",
+      Thriller: "Thriller",
+      War: "War",
+      Western: "Western",
+    },
 
     // --reviews ---
-    reviews: "Reviews",
-    addReview: "Add Review",
     authorName: "Author's name",
     reviewText: "Review text",
-    ratingLabel: "Rating",
+    ratingLabel: "Select Rating",
     ratingText: "Don't forget your rating",
     submitBtn: "Submit",
     resetBtn: "Reset",
+    writeReview: "Write a review",
+    backToMovies: "Back to Movies",
+    reviewTooShort: "Review is too short",
+
+    reviewForm: {
+      title: "Write a review",
+      reviewTitle: "Title",
+      reviewText: "Review text",
+      submit: "Submit",
+      rating: "Rating",
+      validation: {
+        titleRequired: "Review title is required",
+        textRequired: "Review content is required",
+        ratingRequired: "Please provide a rating",
+      },
+      successMessage: "Thank you for submitting your review!",
+    },
 
     movieReview: {
       heading: "Movie Reviews",
       noReviews: "No reviews found for this movie.",
       loading: "Loading reviews...",
       error: "Failed to fetch reviews.",
+      reviewBy: "Review By",
+    },
+    // --- errors message for failing to upload movies ---
+    common: {
+      failedToLoadMovie: "Failed to load movie.",
+      failedToLoadImages: "Failed to load images.",
+      failedToLoadReviews: "Failed to load reviews.",
+      networkError: "Network error. Please try again.",
     },
 
     // --- validation ---
     validation: {
       nameRequired: "Name is required",
       reviewRequired: "Review cannot be empty.",
+      reviewTooShort: "Review is too short",
     },
 
     // --- rating labels ---
@@ -105,25 +170,91 @@ const translations = {
     releaseDate: "Fecha de estreno",
     rating: "Calificación",
 
+    // --- for component movieDetails ---
+    movieDetails: {
+      overview: "Resumen",
+      genres: "Géneros",
+      runtime: "Duración",
+      minutes: "min",
+      revenue: "Recaudación",
+      releaseDate: "Fecha de estreno",
+      votes: "votos",
+      reviewsBtn: "Reseñas",
+    },
+
+    // --- filterUI ---
+    filterUI: {
+      title: "Filtrar las películas.",
+      openBtn: "Filtrar",
+      search: "Buscar",
+      genreLabel: "Género",
+      sortTitle: "Ordenar las películas.",
+    },
+
+    genres: {
+      all: "Todos",
+      Action: "Acción",
+      Adventure: "Aventura",
+      Animation: "Animación",
+      Comedy: "Comedia",
+      Crime: "Crimen",
+      Documentary: "Documental",
+      Drama: "Drama",
+      Family: "Familia",
+      Fantasy: "Fantasía",
+      History: "Historia",
+      Horror: "Terror",
+      Music: "Música",
+      Mystery: "Misterio",
+      Romance: "Romance",
+      "Science Fiction": "Ciencia ficción",
+      "TV Movie": "Película de TV",
+      Thriller: "Suspenso",
+      War: "Guerra",
+      Western: "Western",
+    },
+
     // -- updating message --
     processUpdate: " (actualizando…)",
 
     // --- reviews ---
-    reviews: "Reseñas",
-    addReview: "Agregar Reseña",
     authorName: "Nombre del autor",
-    reviewText: "Texto de la reseña",
-    ratingLabel: "Calificación",
-    ratingText: "No olvides tu calificación",
+    reviewText: "Tu reseña",
+    ratingLabel: "Selecciona una calificación",
+    ratingText: "No olvides calificar",
     submitBtn: "Enviar",
     resetBtn: "Restablecer",
-    thankYouReview: "Gracias por enviar una reseña",
+    writeReview: "Escribir una reseña",
+    backToMovies: "Volver a Películas",
+    reviewTooShort: "La reseña es demasiado corta",
+
+    reviewForm: {
+      title: "Escribe una reseña",
+      reviewTitle: "Título",
+      reviewText: "Tu reseña",
+      submit: "Enviar",
+      rating: "Calificación",
+      validation: {
+        titleRequired: "El título es obligatorio",
+        textRequired: "El contenido de la reseña es obligatorio",
+        ratingRequired: "Por favor, proporciona una calificación",
+      },
+      successMessage: "¡Gracias por enviar tu reseña!",
+    },
 
     movieReview: {
       heading: "Reseñas de Películas",
       noReviews: "No se encontraron reseñas para esta película.",
       loading: "Cargando reseñas...",
       error: "No se pudieron obtener las reseñas.",
+      reviewBy: "Reseña por",
+    },
+
+    // --- movie card ---
+    movieCard: {
+      overview: "Resumen",
+      releaseDate: "Fecha de estreno",
+      rating: "Rating",
     },
 
     // --- validation ---
@@ -131,6 +262,14 @@ const translations = {
       nameRequired: "El nombre es obligatorio",
       reviewRequired: "La reseña no puede estar vacía.",
       reviewTooShort: "La reseña es demasiado corta",
+    },
+
+    // --- errors message for failing to upload movies ---
+    common: {
+      failedToLoadMovie: "No se pudo cargar la película.",
+      failedToLoadImages: "No se pudieron cargar las imágenes.",
+      failedToLoadReviews: "No se pudieron cargar las reseñas.",
+      networkError: "Error de red. Por favor, inténtalo de nuevo.",
     },
 
     // --- rating labels ---
@@ -175,7 +314,7 @@ const translations = {
     // --- actor details ---
     biography: "Biographie",
     backToActors: "Retour aux Acteurs",
-    moreInfo: " Information",
+    moreInfo: "Information",
     birthday: "Date de naissance",
     placeOfBirth: "Lieu de naissance",
     alsoKnownAs: "Aussi connu comme",
@@ -185,25 +324,84 @@ const translations = {
     releaseDate: "Date de sortie",
     rating: "Note",
 
+    // --- for component movieDetails ---
+    movieDetails: {
+      overview: "Aperçu",
+      genres: "Genres",
+      runtime: "Durée",
+      minutes: "min",
+      revenue: "Recettes",
+      releaseDate: "Date de sortie",
+      votes: "votes",
+      reviewsBtn: "Avis",
+    },
+
+    // --- filterUI ---
+    filterUI: {
+      title: "Filtrer les films.",
+      openBtn: "Filtrer",
+      search: "Rechercher",
+      genreLabel: "Genre",
+      sortTitle: "Trier les films.",
+    },
+
+    genres: {
+      all: "Tous",
+      Action: "Action",
+      Adventure: "Aventure",
+      Animation: "Animation",
+      Comedy: "Comédie",
+      Crime: "Policier",
+      Documentary: "Documentaire",
+      Drama: "Drame",
+      Family: "Famille",
+      Fantasy: "Fantastique",
+      History: "Histoire",
+      Horror: "Horreur",
+      Music: "Musique",
+      Mystery: "Mystère",
+      Romance: "Romance",
+      "Science Fiction": "Science-fiction",
+      "TV Movie": "Téléfilm",
+      Thriller: "Thriller",
+      War: "Guerre",
+      Western: "Western",
+    },
+
     // --- updating message ---
     processUpdate: " (mise à jour…)",
 
     // --- reviews ---
-    reviews: "Avis",
-    addReview: "Ajouter un avis",
-    authorName: "Nom de l’auteur",
-    reviewText: "Texte de l’avis",
-    ratingLabel: "Note",
-    ratingText: "N’oubliez pas votre note",
-    submitBtn: "Soumettre",
-    resetBtn: "Réinitialise",
-    thankYouReview: "Merci pour votre avis",
+    authorName: "Nombre del autor",
+    reviewText: "Tu reseña",
+    ratingLabel: "Sélectionner une note",
+    ratingText: "N'oubliez pas votre note",
+    submitBtn: "Envoyer",
+    resetBtn: "Réinitialiser",
+    writeReview: "Écrire une critique",
+    backToMovies: "Retour aux Films",
+    reviewTooShort: "La critique est trop courte",
+
+    reviewForm: {
+      title: "Rédiger un avis",
+      reviewTitle: "Titre",
+      reviewText: "Votre avis",
+      submit: "Envoyer",
+      rating: "Note",
+      validation: {
+        titleRequired: "Le titre est obligatoire",
+        textRequired: "Le contenu de l'avis est obligatoire",
+        ratingRequired: "Veuillez fournir une note",
+      },
+      successMessage: "Merci d'avoir soumis votre avis !",
+    },
 
     movieReview: {
       heading: "Avis sur les Films",
       noReviews: "Aucun avis trouvé pour ce film.",
       loading: "Chargement des avis...",
       error: "Échec du chargement des avis.",
+      reviewBy: "Avis de",
     },
 
     // --- validation ---
@@ -213,12 +411,20 @@ const translations = {
       reviewTooShort: "L'avis est trop court",
     },
 
+    // --- errors message for failing to upload movies ---
+    common: {
+      failedToLoadMovie: "Impossible de charger le film.",
+      failedToLoadImages: "Impossible de charger les images.",
+      failedToLoadReviews: "Impossible de charger les avis.",
+      networkError: "Erreur réseau. Veuillez réessayer.",
+    },
+
     // --- rating labels ---
     ratings: {
       excellent: "Excellent",
       good: "Bon",
       average: "Moyen",
-      poor: "Faible",
+      poor: "Mauvais",
       terrible: "Terrible",
     },
 
