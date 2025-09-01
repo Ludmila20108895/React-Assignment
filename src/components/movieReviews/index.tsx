@@ -23,17 +23,12 @@ const styles = {
 const MovieReviews: React.FC<MovieDetailsProps> = (movie) => {
   const [reviews, setReviews] = useState<ApiReview[]>([]);
 
-  const { language } = useLanguage();
-  const t = (
-    translations[language as keyof typeof translations] ?? translations.en
-  ).movieReview;
+  const { language, uiLang } = useLanguage();
+  const t = translations[uiLang].movieReview;
 
   useEffect(() => {
-    getMovieReviews(movie.id).then((reviews) => {
-      setReviews(reviews);
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [movie.id]);
+    getMovieReviews(movie.id, language).then(setReviews);
+  }, [movie.id, language]);
 
   return (
     <TableContainer component={Paper}>
