@@ -10,7 +10,10 @@ import { Link } from "react-router-dom";
 import { getMovieReviews } from "../../api/tmdb-api";
 import { excerpt } from "../../util";
 
-import { MovieDetailsProps, Review } from "../../types/interfaces"; // Import the MovieT type from the appropriate location
+import translations from "../../i18n/translations";
+import { useLanguage } from "../../contexts/languageContext";
+
+import { MovieDetailsProps, ApiReview } from "../../types/interfaces"; // Import the MovieT type from the appropriate location
 
 const styles = {
   table: {
@@ -19,27 +22,30 @@ const styles = {
 };
 
 const MovieReviews: React.FC<MovieDetailsProps> = (movie) => {
-  const [reviews, setReviews] = useState([]);
+  const [reviews, setReviews] = useState<ApiReview[]>([]);
+
+  const { language } = useLanguage();
+  const t = translations[language as keyof typeof translations].movieReview;
 
   useEffect(() => {
     getMovieReviews(movie.id).then((reviews) => {
       setReviews(reviews);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [movie.id]);
 
   return (
     <TableContainer component={Paper}>
       <Table sx={styles.table} aria-label="reviews table">
         <TableHead>
           <TableRow>
-            <TableCell>Author</TableCell>
-            <TableCell align="center">Excerpt</TableCell>
-            <TableCell align="right">More</TableCell>
+            <TableCell>{t.reviewBy}</TableCell>
+            <TableCell align="center">{t.heading}</TableCell>
+            <TableCell align="right">{t.reviewsBtn}</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {reviews.map((r: Review) => (
+          {reviews.map((r: ApiReview) => (
             <TableRow key={r.id}>
               <TableCell component="th" scope="row">
                 {r.author}
@@ -53,7 +59,7 @@ const MovieReviews: React.FC<MovieDetailsProps> = (movie) => {
                     movie: movie,
                   }}
                 >
-                  Full Review
+                  {t.reviewsBtn}
                 </Link>
               </TableCell>
             </TableRow>

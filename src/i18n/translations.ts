@@ -99,10 +99,8 @@ const translations = {
 
     movieReview: {
       heading: "Movie Reviews",
-      noReviews: "No reviews found for this movie.",
-      loading: "Loading reviews...",
-      error: "Failed to fetch reviews.",
       reviewBy: "Review By",
+      reviewsBtn: "Full Review",
     },
     // --- errors message for failing to upload movies ---
     common: {
@@ -244,10 +242,8 @@ const translations = {
 
     movieReview: {
       heading: "Reseñas de Películas",
-      noReviews: "No se encontraron reseñas para esta película.",
-      loading: "Cargando reseñas...",
-      error: "No se pudieron obtener las reseñas.",
       reviewBy: "Reseña por",
+      reviewsBtn: "Leer Reseña",
     },
 
     // --- movie card ---
@@ -398,10 +394,8 @@ const translations = {
 
     movieReview: {
       heading: "Avis sur les Films",
-      noReviews: "Aucun avis trouvé pour ce film.",
-      loading: "Chargement des avis...",
-      error: "Échec du chargement des avis.",
       reviewBy: "Avis de",
+      reviewsBtn: "Lire l’Avis",
     },
 
     // --- validation ---
