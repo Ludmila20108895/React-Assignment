@@ -1,12 +1,14 @@
 import React from "react"; // useState/useEffect redundant
 
-// --- MUI components ---
+// --- UI components ---
 import MovieHeader from "../headerMovie";
 import Grid from "@mui/material/Grid";
-import ImageList from "@mui/material/ImageList";
-import ImageListItem from "@mui/material/ImageListItem";
 import Spinner from "../spinner";
-import { Alert } from "@mui/material";
+import { Alert, Button } from "@mui/material";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+
+// --- router (for back behavior) ---
+import { useNavigate, useLocation } from "react-router-dom";
 
 // ---typescript types ---
 import { getMovieImages } from "../../api/tmdb-api";
@@ -34,6 +36,7 @@ interface TemplateMoviePageProps {
   movie: MovieDetailsProps;
   children: React.ReactElement;
 }
+const posterBase = "https://image.tmdb.org/t/p/w500";
 
 const TemplateMoviePage: React.FC<TemplateMoviePageProps> = ({
   movie,
@@ -42,6 +45,17 @@ const TemplateMoviePage: React.FC<TemplateMoviePageProps> = ({
   const { uiLang } = useLanguage();
   const lang = uiLang as keyof typeof translations;
   const t = translations[lang];
+
+  const navigate = useNavigate();
+  const location = useLocation();
+  type LocationState = { from?: string };
+  const from = (location.state as LocationState | null)?.from;
+  const hasHistory = typeof window !== "undefined" && window.history.length > 1;
+
+  const handleBack = () => {
+    if (hasHistory) navigate(-1);
+    else if (from) navigate(from, { replace: true });
+  };
 
   const { data, error, isLoading, isError } = useQuery<MovieImage[], Error>(
     ["images", movie.id],
@@ -62,37 +76,36 @@ const TemplateMoviePage: React.FC<TemplateMoviePageProps> = ({
   // will keep only images that have a file_path
   const images = (data ?? []).filter((img) => !!img.file_path);
 
+  const poster = movie.poster_path
+    ? `${posterBase}${movie.poster_path}`
+    : images.length > 0
+    ? `${posterBase}${images[0].file_path}`
+    : posterPlaceholder;
+
   return (
     <>
+      <Button
+        variant="outlined"
+        startIcon={<ArrowBackIcon />}
+        onClick={handleBack}
+        sx={{ mb: 2 }}
+      >
+        ← {t.backToMovies}
+      </Button>
+
       <MovieHeader {...movie} />
 
-      <Grid container spacing={5} style={{ padding: "15px" }}>
-        <Grid item xs={12} md={3}>
-          <div>
-            {images.length > 0 ? (
-              <ImageList cols={1} gap={8} sx={{ m: 0 }}>
-                {images.map((image, idx) => (
-                  <ImageListItem key={image.file_path}>
-                    <img
-                      src={`https://image.tmdb.org/t/p/w500/${image.file_path}`}
-                      alt={`${movie.title} image ${idx + 1}`}
-                      loading="lazy"
-                      style={styles.image}
-                    />
-                  </ImageListItem>
-                ))}
-              </ImageList>
-            ) : (
-              <img
-                src={posterPlaceholder}
-                alt={`${movie.title} placeholder`}
-                style={styles.image}
-              />
-            )}
-          </div>
+      <Grid container spacing={3} style={{ padding: "15px" }}>
+        <Grid item xs={12} md={4}>
+          <img
+            src={poster}
+            alt={movie.title}
+            loading="lazy"
+            style={styles.image}
+          />
         </Grid>
 
-        <Grid item xs={12} md={9}>
+        <Grid item xs={12} md={8}>
           {children}
         </Grid>
       </Grid>

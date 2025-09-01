@@ -28,17 +28,17 @@ const styles = {
   chipLabel: {
     margin: 0.5,
   },
-  fab: {
-    position: "fixed",
-    top: 50,
-    right: 2,
-  },
+  fab: { position: "fixed", top: 50, right: 2 },
 };
 
 const MovieDetails: React.FC<MovieDetailsProps> = (movie) => {
   const [drawerOpen, setDrawerOpen] = useState(false);
+
   const { uiLang } = useLanguage();
-  const t = translations[uiLang];
+  const t = translations[uiLang as keyof typeof translations];
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const genres: { id: number; name: string }[] = (movie.genres ?? []) as any;
 
   return (
     <>
@@ -58,16 +58,21 @@ const MovieDetails: React.FC<MovieDetailsProps> = (movie) => {
             color="primary"
           />
         </li>
-        {movie.genres.map((g) => (
-          <li key={g.name}>
-            <Chip label={t.genres[g.name as keyof typeof t.genres] || g.name} />
+        {genres.map((g) => (
+          <li key={g.id ?? g.name}>
+            <Chip
+              label={t.genres[g.name as keyof typeof t.genres] || g.name}
+              sx={styles.chipLabel}
+            />
           </li>
         ))}
       </Paper>
       <Paper component="ul" sx={styles.chipSet}>
         <Chip
           icon={<AccessTimeIcon />}
-          label={`${t.movieDetails.runtime}: ${movie.runtime} ${t.movieDetails.minutes}`}
+          label={`${t.movieDetails.runtime}: ${movie.runtime ?? 0} ${
+            t.movieDetails.minutes
+          }`}
           sx={styles.chipLabel}
         />
         <Chip
@@ -83,7 +88,7 @@ const MovieDetails: React.FC<MovieDetailsProps> = (movie) => {
           sx={styles.chipLabel}
         />
         <Chip
-          label={`${t.movieDetails.releaseDate}: ${movie.release_date}`}
+          label={`${t.movieDetails.releaseDate}: ${movie.release_date ?? ""}`}
           sx={styles.chipLabel}
         />
       </Paper>
