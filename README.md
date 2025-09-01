@@ -1,30 +1,145 @@
-# React + TypeScript + Vite
+# React Assignment – Movie App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Overview
 
-Currently, two official plugins are available:
+This is my assignment project for the React framework module. I built upon the lab starter project to develop a fully functional Single Page Application (SPA) using React and TypeScript.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+The application integrates movies and actor information, supports language switching, and introduces new interactive features such as favorites, must-watch lists, and review forms.
 
-## Expanding the ESLint configuration
+## Links
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+Live App: ludmila-react-assignment.vercel.app
 
-- Configure the top-level `parserOptions` property like this:
+GitHub Repo: github.com/Ludmila20108895/React-Assignment
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+Demo Video: ()
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+## Features Implemented
+
+### New Views / Pages
+
+actorListPage.tsx – List of popular actors.
+
+actorDetailsPage.tsx – Detailed biography and credits of a selected actor.
+
+mustWatchMoviesPage.tsx – Custom "Must Watch" movie list created by the user.
+
+favouriteMoviesPage.tsx – Movies the user added to favorites.
+
+addMovieReviewPage.tsx – Custom page to submit a review.
+
+movieReviewPage.tsx – Displays reviews of a selected movie.
+
+upcomingMoviesPage.tsx – List of upcoming movies.
+
+## Routing & URL Handling
+
+Implemented new routes for actors, must-watch, reviews, and favorites.
+
+Added parameterized URLs for individual movie and actor pages (/movies/:id, /actors/:id).
+
+Supports data hyperlinking from movies to actors, and between related movie pages.
+
+## Additional Data Entities
+
+Integrated actors as a new data type using TMDB's /person API endpoints.
+
+Actor list and detail views added with full data display.
+
+## Translation (i18n)
+
+Developed custom language context with translation support.
+
+Language switcher in the site header (languageOption.tsx).
+
+Dynamic string translation using translations.ts.
+
+## Filtering & Sorting
+
+useFiltering.ts hook and movieFilterUI for:
+
+Genre filtering
+
+Title search
+
+Sorting movies by release date and popularity.
+
+## State Management
+
+Used Context API:
+
+moviesContext.tsx – Manage favorites, must-watch, and movie state.
+
+languageContext.tsx – Global language selection.
+
+## Components & UI
+
+Created or Updated reusable components:
+
+actorCard, actorList
+
+cardIcons – Add/remove to/from favorites and must-watch lists
+
+templateActorListPage, templateMovieListPage – Page templates for scalable list rendering
+
+movieCard, movieList, movieDetails
+
+reviewForm with ratingCategories.ts
+
+ListPageLayout – Layout structure for list views
+
+siteHeader – with dynamic language and navigation support.
+
+## Server State Caching & Data Fetching
+
+Centralized API requests using `tmdb-api.ts
+
+Pagination implemented for:
+
+- Home page (Discover Movies)
+- Upcoming movies page
+- Actor list page
+
+Page number is synced with the URL using userUrlPage custom hook
+
+Pagination fully implemented on list views using TMDB data.
+
+## Other Features
+
+Add a Movie Review (custom form)
+
+"Must Watch" Movie List
+
+Image fallbacks using placeholders
+
+Custom useMovie and userUrlPage hooks
+
+Reusable filter and layout systems
+
+## Project Structure
+
+Category: Description:
+
+/components/ Reusable UI elements and layouts
+/pages/ Route-based views
+/hooks/ Custom React hooks (e.g. filtering, routing)
+/contexts/ Global state contexts
+/i18n/ Translations and i18n logic
+/api/ Centralized API utility (tmdb-api.ts)
+/types/ Custom TypeScript interfaces
+
+## Tech Stack
+
+\*\* React + TypeScript
+
+\*\* React Router DOM
+
+\*\* Vite (build tool)
+
+\*\* Context API for global state
+
+\*\* Local Storage for persistence
+
+\*\* Custom i18n (language toggle)
+
+\*\* Styled Components / CSS Modules
