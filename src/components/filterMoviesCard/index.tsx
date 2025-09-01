@@ -15,6 +15,7 @@ import Select from "@mui/material/Select";
 import { getGenres } from "../../api/tmdb-api";
 import { useQuery } from "react-query";
 import Spinner from "../spinner";
+import translations from "../../i18n/translations";
 
 import { useLanguage } from "../../contexts/languageContext";
 // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -44,7 +45,8 @@ const FilterMoviesCard: React.FC<FilterMoviesCardProps> = ({
   genreFilter,
   onUserInput,
 }) => {
-  const { language } = useLanguage();
+  const { language, uiLang } = useLanguage();
+  const t = translations[uiLang];
 
   const { data, error, isLoading, isError } = useQuery<GenreData, Error>({
     queryKey: ["genres", language],
@@ -57,10 +59,8 @@ const FilterMoviesCard: React.FC<FilterMoviesCardProps> = ({
   if (isError) {
     return <h1>{(error as Error).message}</h1>;
   }
-  const genres = data?.genres || [];
-  if (genres[0].name !== "All") {
-    genres.unshift({ id: 0, name: "All" });
-  }
+  const tmdbGenres = data?.genres || [];
+  const genres = [{ id: 0, name: t.genres.all }, ...tmdbGenres];
 
   const handleChange = (
     e: SelectChangeEvent,
@@ -85,12 +85,12 @@ const FilterMoviesCard: React.FC<FilterMoviesCardProps> = ({
         <CardContent>
           <Typography variant="h5" component="h1">
             <FilterAltIcon fontSize="large" />
-            Filter the movies.
+            {t.filterUI.title}
           </Typography>
           <TextField
             sx={styles.formControl}
             id="filled-search"
-            label="Search field"
+            label={t.filterUI.search}
             type="search"
             value={titleFilter}
             variant="filled"
@@ -98,7 +98,7 @@ const FilterMoviesCard: React.FC<FilterMoviesCardProps> = ({
           />
 
           <FormControl sx={styles.formControl}>
-            <InputLabel id="genre-label">Genre</InputLabel>
+            <InputLabel id="genre-label">{t.filterUI.genreLabel}</InputLabel>
             <Select
               labelId="genre-label"
               id="genre-select"
@@ -121,7 +121,7 @@ const FilterMoviesCard: React.FC<FilterMoviesCardProps> = ({
         <CardContent>
           <Typography variant="h5" component="h1">
             <SortIcon fontSize="large" />
-            Sort the movies.
+            {t.filterUI.sortTitle}
           </Typography>
         </CardContent>
       </Card>
