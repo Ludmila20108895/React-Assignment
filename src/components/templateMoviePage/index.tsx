@@ -90,7 +90,7 @@ const TemplateMoviePage: React.FC<TemplateMoviePageProps> = ({
         onClick={handleBack}
         sx={{ mb: 2 }}
       >
-        ← {t.backToMovies}
+        {t.backToMovies}
       </Button>
 
       <MovieHeader {...movie} />
