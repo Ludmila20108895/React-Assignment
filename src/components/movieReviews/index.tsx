@@ -13,8 +13,7 @@ import { excerpt } from "../../util";
 import translations from "../../i18n/translations";
 import { useLanguage } from "../../contexts/languageContext";
 
-import { MovieDetailsProps, ApiReview } from "../../types/interfaces"; // Import the MovieT type from the appropriate location
-
+import { MovieDetailsProps, ApiReview } from "../../types/interfaces";
 const styles = {
   table: {
     minWidth: 550,
@@ -25,7 +24,9 @@ const MovieReviews: React.FC<MovieDetailsProps> = (movie) => {
   const [reviews, setReviews] = useState<ApiReview[]>([]);
 
   const { language } = useLanguage();
-  const t = translations[language as keyof typeof translations].movieReview;
+  const t = (
+    translations[language as keyof typeof translations] ?? translations.en
+  ).movieReview;
 
   useEffect(() => {
     getMovieReviews(movie.id).then((reviews) => {
