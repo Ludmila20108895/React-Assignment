@@ -8,7 +8,7 @@ The application integrates movies and actor information, supports language switc
 
 ## Links
 
-Live App: ludmila-react-assignment.vercel.app
+Live App: https://ludmila-react-assignment.vercel.app/
 
 GitHub Repo: github.com/Ludmila20108895/React-Assignment
 
