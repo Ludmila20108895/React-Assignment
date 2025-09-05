@@ -12,7 +12,7 @@ Live App: https://ludmila-react-assignment.vercel.app/
 
 GitHub Repo: https://github.com/Ludmila20108895/React-Assignment.git
 
-Demo Video: ()
+Demo Video: https://youtu.be/-pw0gsW0oi4
 
 ## Features Implemented
 
